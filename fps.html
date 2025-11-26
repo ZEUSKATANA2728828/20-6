@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>FPS — GameX</title><link rel="stylesheet" href="styles.css"></head>
+<body class="site-bg">
+  <header class="topbar"><div class="topbar-inner"><div class="brand">GameX</div></div></header>
+
+  <main class="center-wrap">
+    <h1 class="title">TIRO — ALVOS</h1>
+    <div id="fpsArea" style="width:880px;height:480px;background:#041423;border-radius:12px;position:relative;overflow:hidden;margin:auto"></div>
+
+    <div style="margin-top:12px">
+      <button class="btn" onclick="startFPS()">Iniciar</button>
+      <button class="btn ghost" onclick="location.href='minigames.html'">Voltar</button>
+      <div id="fpsInfo" class="small-muted" style="margin-top:10px">Clique nos alvos rapidamente para marcar pontos.</div>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+  <script>
+    function startFPS(){
+      if(typeof window._startFPS === 'function'){ window._startFPS(); return; }
+      const area = document.getElementById('fpsArea'); area.innerHTML=''; let score=0; let time=20; const info = document.getElementById('fpsInfo');
+      info.innerText = `Tempo: ${time}s • Pontos: ${score}`;
+      const timer = setInterval(()=>{ time--; info.innerText = `Tempo: ${time}s • Pontos: ${score}`; if(time<=0){ clearInterval(timer); addCoins(score*2); addXP(score*3); alert('Fim! Pontos: '+score); area.innerHTML=''; } },1000);
+      function spawn(){
+        const t = document.createElement('div'); t.className='fps-target'; const sx = 30 + Math.random()*(area.clientWidth-60), sy = 30 + Math.random()*(area.clientHeight-60);
+        t.style.left = sx+'px'; t.style.top = sy+'px'; t.style.background = `hsl(${Math.random()*360},70%,60%)`; area.appendChild(t);
+        t.addEventListener('click', ()=>{ score++; t.remove(); const pop = document.createElement('div'); pop.style.position='absolute'; pop.style.left=sx+'px'; pop.style.top=sy+'px'; pop.innerText='+1'; pop.style.color='#fff'; area.appendChild(pop); setTimeout(()=> pop.remove(),500); });
+        setTimeout(()=> { if(t.parentNode) t.remove(); },1200);
+        setTimeout(()=>{ if(time>0) spawn(); }, 300 + Math.random()*700);
+      }
+      spawn();
+    }
+  </script>
+</body>
+</html>
