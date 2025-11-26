@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Futebol — GameX</title><link rel="stylesheet" href="styles.css"></head>
+<body class="site-bg">
+  <header class="topbar"><div class="topbar-inner"><div class="brand">GameX</div></div></header>
+
+  <main class="center-wrap">
+    <h1 class="title">Futebol — Chute ao Gol</h1>
+    <div id="footballArea" style="width:880px;height:480px;background:#061425;border-radius:12px;position:relative;overflow:hidden;margin:auto">
+      <div id="goal" style="position:absolute;right:24px;top:160px;width:160px;height:160px;border:3px dashed rgba(255,255,255,0.08);border-radius:6px"></div>
+      <div id="ball" style="position:absolute;width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#fff,#ddd);left:120px;top:240px;transform:translate(-50%,-50%)"></div>
+      <div id="player" style="position:absolute;width:36px;height:36px;border-radius:6px;background:#4fc08d;left:120px;top:240px;transform:translate(-50%,-50%)"></div>
+    </div>
+
+    <div style="margin-top:12px">
+      <button class="btn" onclick="startFootball()">Iniciar</button>
+      <button class="btn ghost" onclick="location.href='minigames.html'">Voltar</button>
+      <div id="fbInfo" class="small-muted">Use WASD para mover • Espaço / clique para chutar</div>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+  <script>
+    // Inline implementation (fallback in case not centralized)
+    function startFootball(){
+      if(typeof window._startFootball === 'function'){ window._startFootball(); return; }
+      // otherwise, simple implementation:
+      const area = document.getElementById('footballArea'); const ball = document.getElementById('ball'); const player = document.getElementById('player'); const goal = document.getElementById('goal');
+      let px=120, py=240, bx=160, by=240, bvx=0, bvy=0, running=true;
+      function render(){ player.style.left = px+'px'; player.style.top = py+'px'; ball.style.left = bx+'px'; ball.style.top = by+'px'; }
+      function loop(){ if(!running) return; bx += bvx; by += bvy; bvx *= 0.98; bvy *= 0.98;
+        const gx=goal.offsetLeft, gy=goal.offsetTop, gw=goal.clientWidth, gh=goal.clientHeight;
+        if(bx > gx && bx < gx+gw && by > gy && by < gy+gh){ running=false; addCoins(30); addXP(50); alert('GOL! +30 coins, +50 XP'); return; }
+        requestAnimationFrame(loop);
+      }
+      const keys = {}; window.addEventListener('keydown', kd); window.addEventListener('keyup', ku);
+      function kd(e){ keys[e.key.toLowerCase()] = true; if(e.key===' ') kick(); }
+      function ku(e){ keys[e.key.toLowerCase()] = false; }
+      function playerStep(){ if(!running){ window.removeEventListener('keydown', kd); window.removeEventListener('keyup', ku); return; }
+        if(keys['a']||keys['arrowleft']) px -= 4; if(keys['d']||keys['arrowright']) px += 4; if(keys['w']||keys['arrowup']) py -= 4; if(keys['s']||keys['arrowdown']) py += 4;
+        px = Math.max(20, Math.min(area.clientWidth-20, px)); py = Math.max(20, Math.min(area.clientHeight-20, py));
+        // follow
+        const dx = bx - px, dy = by - py; const dist = Math.hypot(dx,dy);
+        if(dist < 44){ bx = px + dx*0.95; by = py + dy*0.95; }
+        setTimeout(playerStep,16);
+      }
+      function kick(){ const ang = Math.atan2(by-py, bx-px); bvx += Math.cos(ang)*10; bvy += Math.sin(ang)*10; }
+      area.onclick = function(e){ const rect = area.getBoundingClientRect(); const mx = e.clientX-rect.left, my = e.clientY-rect.top; const ang = Math.atan2(my-py,mx-px); bvx += Math.cos(ang)*12; bvy += Math.sin(ang)*12; };
+      px=120; py=240; bx=160; by=240; bvx=0; bvy=0; render(); playerStep(); loop();
+    }
+  </script>
+</body>
+</html>
