@@ -1,0 +1,75 @@
+/* styles.css — layout profissional inspirado na imagem (topo azul, seção vermelha, cards, botões) */
+@import url('https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap');
+:root{ --navy:#213a56; --red:#e14b57; --accent:#4F95DA; --glass:rgba(255,255,255,0.05); --card-bg:#ffffff; }
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;font-family:'Lato',sans-serif;background:linear-gradient(180deg,#061428 0%, #001019 100%);color:#fff}
+
+/* topbar */
+.topbar{background:var(--navy);box-shadow:0 6px 24px rgba(0,0,0,0.45);position:sticky;top:0;z-index:40}
+.topbar-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px 20px}
+.brand{font-weight:700;font-size:20px}
+.top-nav a{color:#dbe7f7;margin-left:18px;text-decoration:none}
+
+/* center layout */
+.center-wrap{max-width:1100px;margin:28px auto;padding:0 18px}
+
+/* hero */
+.hero{display:flex;gap:18px;align-items:center;justify-content:space-between;margin-bottom:18px}
+.hero-left{flex:1}
+.hero-right{width:320px}
+.hero-card{background:var(--glass);padding:14px;border-radius:10px;color:#fff}
+
+/* panels */
+.panel{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:18px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.45)}
+.auth-panel{max-width:420px;margin:50px auto;text-align:center}
+.input{width:86%;padding:12px;border-radius:10px;border:none;margin:8px auto;display:block;background:rgba(255,255,255,0.03);color:#fff}
+
+/* buttons */
+.btn-row{display:flex;gap:12px;justify-content:center;margin-top:12px}
+.btn{background:transparent;border:1px solid #91C9FF;padding:10px 18px;border-radius:10px;cursor:pointer;color:#fff;position:relative;overflow:visible}
+.btn svg{position:absolute;left:0;top:0;fill:none;stroke:#fff;stroke-dasharray:150 480;stroke-dashoffset:150;transition:1s ease-in-out}
+.btn:hover{background:var(--accent);transform:translateY(-3px)}
+.btn:hover svg{stroke-dashoffset:-480}
+.btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06)}
+.btn-red{background:var(--red);border:none;padding:12px 20px;border-radius:26px}
+
+/* small utilities */
+.small-muted{color:rgba(255,255,255,0.75);font-size:13px}
+.title{font-size:22px;margin-bottom:12px}
+.card{background:var(--glass);border-radius:12px;padding:14px;color:#fff;box-shadow:0 8px 24px rgba(0,0,0,0.45);min-width:180px}
+
+/* grid/sections */
+.section-cards{display:flex;gap:18px;flex-wrap:wrap;justify-content:center;margin-top:18px}
+.card.huge{flex:1}
+
+/* shop grid */
+.shop-grid{display:flex;gap:18px;flex-wrap:wrap;justify-content:center}
+.shop-card{width:220px;background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));padding:12px;border-radius:12px;text-align:center}
+.shop-card img{width:100%;height:120px;object-fit:cover;border-radius:8px;margin-bottom:8px}
+
+/* arena / multiplayer */
+.arena{border-radius:10px;border:1px solid rgba(255,255,255,0.03);box-shadow:inset 0 4px 60px rgba(0,0,0,0.6);overflow:hidden}
+.mp-player{position:absolute;width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:700;color:#021}
+.mp-name{position:absolute;top:-18px;font-size:12px;color:#fff}
+
+/* shop/hero images */
+.story-hero{display:flex;gap:18px;background:linear-gradient(90deg,var(--red),#de525d);color:#fff;padding:18px;border-radius:12px;margin:18px 0}
+.story-right img{max-width:100%;border-radius:8px}
+
+/* mini elements */
+.terms-box{background:rgba(255,255,255,0.03);padding:14px;border-radius:10px}
+.loading-bg{display:flex;align-items:center;justify-content:center;min-height:100vh;background:linear-gradient(180deg,#3b0f14,#3b0f14)}
+.loading-card{background:rgba(255,255,255,0.03);padding:22px;border-radius:12px;text-align:center}
+.loader{width:48px;height:48px;border-radius:50%;border:6px solid rgba(255,255,255,0.08);border-top-color:#fff;animation:spin 1s linear infinite;margin:12px auto}
+
+/* fps target */
+.fps-target{position:absolute;width:48px;height:48px;border-radius:50%;box-shadow:0 8px 18px rgba(0,0,0,0.4);display:flex;align-items:center;justify-content:center;font-weight:800;cursor:pointer}
+
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* responsive */
+@media(max-width:920px){
+  .hero{flex-direction:column}
+  .topbar-inner{flex-direction:column;gap:8px;align-items:flex-start}
+  .shop-grid{flex-direction:column;align-items:center}
+}
