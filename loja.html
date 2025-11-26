@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Loja — GameX</title><link rel="stylesheet" href="styles.css"><script defer src="script.js"></script></head>
+<body class="site-bg">
+  <header class="topbar"><div class="topbar-inner"><div class="brand">GameX</div><nav class="top-nav"><a href="main.html">Home</a><a href="minigames.html">Minigames</a></nav></div></header>
+
+  <main class="center-wrap">
+    <h1 class="title">Loja</h1>
+    <div class="shop-grid">
+      <div class="shop-card">
+        <img src="https://i.imgur.com/5bJ6pQG.png" alt="skin" />
+        <h3>Skin Fire</h3>
+        <p class="small-muted">200 coins</p>
+        <button class="btn" onclick="buyItem('skin_fire',200)">Comprar</button>
+      </div>
+
+      <div class="shop-card">
+        <img src="https://i.imgur.com/5bJ6pQG.png" alt="skin" />
+        <h3>Skin Ice</h3>
+        <p class="small-muted">350 coins</p>
+        <button class="btn" onclick="buyItem('skin_ice',350)">Comprar</button>
+      </div>
+
+      <div class="shop-card">
+        <img src="https://i.imgur.com/5bJ6pQG.png" alt="skin" />
+        <h3>Lootbox</h3>
+        <p class="small-muted">Grátis uma vez por dia</p>
+        <button class="btn" onclick="openLootbox()">Abrir Lootbox</button>
+        <div id="lootResult" class="small-muted" style="margin-top:8px"></div>
+      </div>
+    </div>
+
+    <div style="margin-top:12px"><a class="btn ghost" href="main.html">Voltar</a></div>
+  </main>
+
+  <footer class="footer">© GameX</footer>
+</body>
+</html>
