@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>GameX — Registrar</title>
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="script.js"></script>
+</head>
+<body class="bg-stars">
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">GameX</div>
+      <nav class="top-nav"><a href="index.html">Voltar</a></nav>
+    </div>
+  </header>
+
+  <main class="center-wrap">
+    <div class="panel auth-panel">
+      <h2>Criar Conta</h2>
+      <input id="regUser" class="input" placeholder="Escolha um usuário" />
+      <input id="regPass" class="input" type="password" placeholder="Senha" />
+      <div class="btn-row">
+        <button class="btn" onclick="doRegister()">Registrar</button>
+        <button class="btn ghost" onclick="location.href='index.html'">Cancelar</button>
+      </div>
+      <p class="small-muted">Senha armazenada localmente com hash simples (somente front-end).</p>
+    </div>
+  </main>
+
+  <footer class="footer">© GameX</footer>
+</body>
+</html>
