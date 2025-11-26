@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>GameX — Painel</title>
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="script.js"></script>
+</head>
+<body class="site-bg">
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">GameX</div>
+      <nav class="top-nav">
+        <a href="main.html">Home</a>
+        <a href="loja.html">Loja</a>
+        <a href="minigames.html">Minijogos</a>
+        <a href="historia.html">História</a>
+        <a href="multiplayer.html">Multiplayer</a>
+        <a href="termos.html">Termos</a>
+      </nav>
+      <div class="user-area">
+        <span id="userName">Visitante</span>
+        <button class="btn small ghost" onclick="logout()">Sair</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="center-wrap">
+    <section class="hero">
+      <div class="hero-left">
+        <h1>Bem-vindo ao universo GameX</h1>
+        <p>Recupere a Luz Ancestral, equipe skins, suba de nível e divirta-se nos minijogos.</p>
+        <div class="btn-row">
+          <a class="btn btn-red" href="minigames.html">JOGAR AGORA</a>
+          <a class="btn ghost" href="multiplayer.html">MULTIPLAYER</a>
+        </div>
+      </div>
+      <div class="hero-right">
+        <div class="card hero-card">
+          <h3>Seu Progresso</h3>
+          <div id="profileSummary" class="small-muted">Carregando...</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-cards">
+      <div class="card">
+        <h3>Modos de Jogo</h3>
+        <p>História • Minigames • Multiplayer simulado</p>
+      </div>
+      <div class="card">
+        <h3>Loja</h3>
+        <p>Skins, lootbox e moedas</p>
+      </div>
+      <div class="card">
+        <h3>Missões & Pass</h3>
+        <p>Missões diárias e Battle Pass gratuito</p>
+      </div>
+      <div class="card">
+        <h3>Conquistas</h3>
+        <p>Desbloqueie títulos e recompensas</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">© GameX — Built for you</footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', ()=>{
+      const user = localStorage.getItem('gx_logged') || 'Visitante';
+      document.getElementById('userName').innerText = user;
+      const p = getProfile();
+      if(p) document.getElementById('profileSummary').innerText = `Nível ${p.level} • XP ${p.xp} • Coins ${p.coins}`;
+      else document.getElementById('profileSummary').innerText = 'Sem perfil';
+    });
+  </script>
+</body>
+</html>
