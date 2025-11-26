@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>GameX — Login</title>
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="script.js"></script>
+</head>
+<body class="bg-stars">
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">GameX</div>
+      <nav class="top-nav"><a href="main.html">Início</a><a href="termos.html">Termos</a></nav>
+    </div>
+  </header>
+
+  <main class="center-wrap">
+    <div class="panel auth-panel">
+      <h2>Entrar</h2>
+      <input id="loginUser" class="input" placeholder="Usuário" />
+      <input id="loginPass" class="input" type="password" placeholder="Senha" />
+      <div class="btn-row">
+        <button class="btn" onclick="doLogin()">Entrar</button>
+        <button class="btn ghost" onclick="location.href='register.html'">Criar Conta</button>
+      </div>
+      <a class="link-muted" href="main.html">Entrar como convidado</a>
+    </div>
+  </main>
+
+  <footer class="footer">© GameX — Projeto Frontend</footer>
+</body>
+</html>
