@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Runner Dash Turbo - NeoArcadia</title>
+    <link rel="stylesheet" href="styles.css">
+
+    <style>
+        body {
+            background: #000;
+            overflow: hidden;
+        }
+
+        .game-container {
+            width: 100%;
+            max-width: 480px;
+            height: 600px;
+            margin: 25px auto;
+            background: linear-gradient(to bottom, #1a1a1a, #000);
+            border: 2px solid #00eaff;
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .player {
+            width: 40px;
+            height: 40px;
+            background: #00eaff;
+            position: absolute;
+            bottom: 30px;
+            left: 50px;
+            border-radius: 6px;
+        }
+
+        .obstacle {
+            width: 40px;
+            height: 40px;
+            background: #ff0059;
+            position: absolute;
+            bottom: 30px;
+            right: -50px;
+            border-radius: 6px;
+        }
+
+        .hud {
+            text-align: center;
+            color: white;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1 class="title">Runner Dash Turbo</h1>
+    <p class="subtitle">Corra e desvie dos obstáculos!</p>
+
+    <nav class="navbar">
+        <a href="main.html">⬅️ Voltar ao Menu</a>
+    </nav>
+</header>
+
+<div class="hud">Pontuação: <span id="score">0</span></div>
+
+<div class="game-container" id="game">
+    <div class="player" id="player"></div>
+</div>
+
+<script>
+    const player = document.getElementById("player");
+    const game = document.getElementById("game");
+    const scoreEl = document.getElementById("score");
+
+    let isJumping = false;
+    let score = 0;
+
+    document.addEventListener("keydown", () => jump());
+
+    function jump() {
+        if (isJumping) return;
+        isJumping = true;
+
+        let pos = 30;
+
+        const up = setInterval(() => {
+            if (pos >= 150) {
+                clearInterval(up);
+
+                const down = setInterval(() => {
+                    if (pos <= 30) {
+                        clearInterval(down);
+                        isJumping = false;
+                    }
+                    pos -= 6;
+                    player.style.bottom = pos + "px";
+                }, 20);
+            }
+
+            pos += 6;
+            player.style.bottom = pos + "px";
+        }, 20);
+    }
+
+    function spawnObstacle() {
+        const obs = document.createElement("div");
+        obs.classList.add("obstacle");
+
+        game.appendChild(obs);
+
+        let x = game.clientWidth;
+
+        const move = setInterval(() => {
+            x -= 5;
+            obs.style.right = (game.clientWidth - x) + "px";
+
+            const p = player.getBoundingClientRect();
+            const o = obs.getBoundingClientRect();
+
+            if (!(p.right < o.left || p.left > o.right || p.bottom < o.top || p.top > o.bottom)) {
+                alert("💀 Você bateu! Pontuação final: " + score);
+                window.location.reload();
+            }
+
+            if (x < -50) {
+                obs.remove();
+                score++;
+                scoreEl.textContent = score;
+                clearInterval(move);
+            }
+        }, 20);
+    }
+
+    setInterval(spawnObstacle, 1000);
+</script>
+
+<footer>
+    <p>NeoArcadia © 2025 — Runner Dash Turbo</p>
+</footer>
+
+</body>
+</html>
