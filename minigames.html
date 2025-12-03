@@ -1,18 +1,179 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Minijogos — GameX</title><link rel="stylesheet" href="styles.css"></head>
-<body class="site-bg">
-  <header class="topbar"><div class="topbar-inner"><div class="brand">GameX</div><nav class="top-nav"><a href="main.html">Home</a></nav></div></header>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minigames - Project X</title>
 
-  <main class="center-wrap">
-    <h1 class="title">Minijogos</h1>
-    <div class="btn-stack">
-      <div class="btn-container"><a class="btn" href="football.html">Futebol</a></div>
-      <div class="btn-container"><a class="btn" href="fps.html">FPS (Alvos)</a></div>
-      <div class="btn-container"><a class="btn" href="race.html">Corrida</a></div>
-      <div class="btn-container"><a class="btn" href="boss.html">Chefe</a></div>
-      <div class="btn-container"><a class="btn ghost" href="main.html">Voltar</a></div>
-    </div>
-  </main>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(120deg, #0d111c, #121b30, #1c2a45);
+            color: white;
+            overflow-x: hidden;
+        }
+
+        header {
+            background: rgba(255,255,255,0.1);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(5px);
+            border-bottom: 1px solid rgba(255,255,255,0.15);
+        }
+
+        .back {
+            background: #222;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .back:hover {
+            background: #444;
+        }
+
+        h1 {
+            text-align: center;
+            margin: 20px;
+        }
+
+        /* GRID DOS JOGOS */
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 25px;
+            padding: 20px;
+        }
+
+        .game-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 18px;
+            transition: .25s;
+            border: 1px solid rgba(255,255,255,0.12);
+            cursor: pointer;
+        }
+
+        .game-card:hover {
+            background: rgba(255,255,255,0.15);
+            transform: scale(1.04);
+        }
+
+        .game-img {
+            width: 100%;
+            height: 160px;
+            border-radius: 12px;
+            object-fit: cover;
+            margin-bottom: 10px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .game-title {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .game-desc {
+            font-size: 14px;
+            opacity: .8;
+            margin-top: 6px;
+        }
+
+        .play-btn {
+            margin-top: 12px;
+            padding: 10px 14px;
+            border-radius: 10px;
+            border: none;
+            background: rgb(3,155,255);
+            color: white;
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        .play-btn:hover {
+            background: rgb(1,125,210);
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="back" onclick="location.href='main.html'">⬅ Voltar</div>
+    <h2>Minigames</h2>
+    <div style="opacity: .7;">Total: <span id="totalGames"></span></div>
+</header>
+
+<h1>Jogue minigames direto no navegador</h1>
+
+<div class="games-grid" id="gamesList">
+    <!-- gerado pelo script -->
+</div>
+
+<script>
+    // Lista de minigames (pode adicionar depois)
+    const games = [
+        {
+            title: "Flappy Cube",
+            desc: "Desvie dos obstáculos com um cubo!",
+            img: "https://i.imgur.com/tP1B0Nd.jpeg",
+            link: "minigames/flappy.html"
+        },
+        {
+            title: "Runner 2D",
+            desc: "Corra sem parar e bata seu recorde.",
+            img: "https://i.imgur.com/zjefYwW.jpeg",
+            link: "minigames/runner.html"
+        },
+        {
+            title: "Reaction Test",
+            desc: "Veja o quão rápido você reage.",
+            img: "https://i.imgur.com/4Q2dQw4.jpeg",
+            link: "minigames/react.html"
+        },
+        {
+            title: "Aim Training",
+            desc: "Treine mira no navegador.",
+            img: "https://i.imgur.com/8nUdOvN.jpeg",
+            link: "minigames/aim.html"
+        },
+        {
+            title: "Sudoku",
+            desc: "Um clássico de lógica.",
+            img: "https://i.imgur.com/NjK0xTx.jpeg",
+            link: "minigames/sudoku.html"
+        },
+        {
+            title: "2048",
+            desc: "Combine números até 2048!",
+            img: "https://i.imgur.com/XouVbu8.jpeg",
+            link: "minigames/2048.html"
+        }
+    ];
+
+    function carregarMinigames() {
+        const box = document.getElementById("gamesList");
+        document.getElementById("totalGames").textContent = games.length;
+
+        games.forEach(g => {
+            box.innerHTML += `
+                <div class="game-card" onclick="location.href='${g.link}'">
+                    <img src="${g.img}" class="game-img">
+                    <div class="game-title">${g.title}</div>
+                    <div class="game-desc">${g.desc}</div>
+                    <button class="play-btn">Jogar</button>
+                </div>
+            `;
+        });
+    }
+
+    carregarMinigames();
+</script>
+
 </body>
 </html>
