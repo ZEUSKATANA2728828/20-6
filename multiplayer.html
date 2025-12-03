@@ -1,34 +1,233 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Multiplayer — GameX</title><link rel="stylesheet" href="styles.css"><script defer src="script.js"></script></head>
-<body class="site-bg">
-  <header class="topbar"><div class="topbar-inner"><div class="brand">GameX</div><nav class="top-nav"><a href="main.html">Home</a></nav></div></header>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multiplayer - Project X</title>
 
-  <main class="center-wrap">
-    <h1 class="title">Multiplayer (Simulado)</h1>
-    <div class="mp-top">
-      <div class="card small"><strong id="mpOnline">Jogadores online: 0</strong><div class="small-muted">Bots ativos</div></div>
-      <div style="flex:1;text-align:right"><button class="btn ghost" onclick="location.href='main.html'">Voltar</button></div>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #0a0f1d, #101b33, #1e2a4d);
+            color: white;
+            overflow: hidden;
+        }
+
+        header {
+            background: rgba(255,255,255,0.1);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(5px);
+            border-bottom: 1px solid rgba(255,255,255,0.15);
+        }
+
+        .back {
+            background: #222;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .back:hover {
+            background: #444;
+        }
+
+        h1 {
+            text-align: center;
+            margin: 15px 0;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: 40% 60%;
+            height: calc(100vh - 80px);
+        }
+
+        /* SALAS */
+        .rooms {
+            border-right: 1px solid rgba(255,255,255,0.2);
+            overflow-y: auto;
+            padding: 10px;
+        }
+
+        .room {
+            background: rgba(255,255,255,0.07);
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: 0.2s;
+            border: 1px solid rgba(255,255,255,0.15);
+        }
+
+        .room:hover {
+            background: rgba(255,255,255,0.15);
+            transform: scale(1.03);
+        }
+
+        /* CHAT */
+        .chat-box {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            padding: 10px;
+        }
+
+        .messages {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        .msg {
+            background: rgba(255,255,255,0.08);
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+        }
+
+        .msg span {
+            color: #3ae8ff;
+        }
+
+        .send-box {
+            display: flex;
+            gap: 10px;
+        }
+
+        input {
+            flex: 1;
+            padding: 12px;
+            border-radius: 10px;
+            border: none;
+            outline: none;
+        }
+
+        button {
+            padding: 12px 16px;
+            border: none;
+            border-radius: 10px;
+            background: rgb(0, 153, 255);
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: rgb(0, 110, 200);
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="back" onclick="location.href='main.html'">⬅ Voltar</div>
+    <h2>Multiplayer</h2>
+    <div style="opacity: .7;">Jogadores online: <span id="online">0</span></div>
+</header>
+
+<h1>Salas Disponíveis</h1>
+
+<div class="container">
+
+    <!-- SALAS FAKE -->
+    <div class="rooms" id="roomsList">
+        <!-- Gerado pelo script -->
     </div>
 
-    <div id="mpArena" class="arena" style="width:920px;height:420px;margin:auto"></div>
+    <!-- CHAT -->
+    <div class="chat-box">
+        <div class="messages" id="chatMessages">
+            <div class="msg"><span>[BOT]</span> Bem-vindo ao chat multiplayer!</div>
+        </div>
 
-    <div style="margin-top:12px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
-      <div class="card small">
-        <strong>Ranking</strong>
-        <ol id="mpRanking" style="padding-left:18px;margin-top:6px"></ol>
-      </div>
-      <div class="card small">
-        <strong>Seu Perfil</strong>
-        <div id="mpProfile" class="small-muted">Carregando...</div>
-      </div>
+        <div class="send-box">
+            <input id="msgInput" placeholder="Digite sua mensagem...">
+            <button onclick="sendMsg()">Enviar</button>
+        </div>
     </div>
-  </main>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', ()=> {
-      initFakeMultiplayer({bots:20, arenaId:'mpArena', rankingId:'mpRanking', onlineId:'mpOnline', profileId:'mpProfile'});
-    });
-  </script>
+</div>
+
+<script>
+    // Simular jogadores online
+    function updateOnline() {
+        let n = Math.floor(Math.random() * 50) + 20;
+        document.getElementById("online").textContent = n;
+    }
+    setInterval(updateOnline, 2000);
+    updateOnline();
+
+
+    // Salas fake
+    const salasFake = [
+        { nome: "Sala dos Pro Players", players: "4/10" },
+        { nome: "Brasil Zone", players: "7/12" },
+        { nome: "Mestres da Sniper", players: "2/8" },
+        { nome: "Football Room", players: "9/10" },
+        { nome: "Sala Casual", players: "3/15" },
+        { nome: "FPS Elite", players: "5/10" },
+    ];
+
+    function carregarSalas() {
+        let box = document.getElementById("roomsList");
+        salasFake.forEach(s => {
+            box.innerHTML += `
+                <div class="room" onclick="entrarSala('${s.nome}')">
+                    <b>${s.nome}</b><br>
+                    Jogadores: ${s.players}
+                </div>
+            `;
+        });
+    }
+    carregarSalas();
+
+
+    function entrarSala(nome) {
+        chatMessages.innerHTML += `
+            <div class='msg'><span>[BOT]</span> Você entrou na sala <b>${nome}</b>.</div>
+        `;
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+
+    // Chat fake
+    function sendMsg() {
+        let msg = msgInput.value.trim();
+        if (msg === "") return;
+
+        chatMessages.innerHTML += `
+            <div class="msg"><span>Você:</span> ${msg}</div>
+        `;
+
+        msgInput.value = "";
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+
+        // Resposta fake bot
+        setTimeout(() => {
+            let respostas = [
+                "Boa!",
+                "Onde você é?",
+                "Bora jogar!",
+                "Kkkkkk",
+                "Sim mano",
+                "Tá on de novo?"
+            ];
+
+            let resp = respostas[Math.floor(Math.random() * respostas.length)];
+
+            chatMessages.innerHTML += `
+                <div class="msg"><span>[BOT]</span> ${resp}</div>
+            `;
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }, 900);
+    }
+</script>
+
 </body>
 </html>
