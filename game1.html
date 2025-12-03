@@ -1,0 +1,167 @@
+<!-- game1.html -->
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Minigame — Dodge Squares</title>
+
+  <link rel="stylesheet" href="styles.css">
+
+  <style>
+    .game-wrap {
+      max-width: 900px;
+      margin: 20px auto;
+      padding: 20px;
+      text-align: center;
+    }
+
+    canvas {
+      background: #111;
+      border: 2px solid #444;
+      border-radius: 10px;
+      margin-top: 20px;
+    }
+
+    .score {
+      font-size: 20px;
+      margin-top: 10px;
+      color: #fff;
+    }
+  </style>
+</head>
+
+<body class="app-bg">
+
+<header class="topbar">
+  <button class="btn small" onclick="history.back()">Voltar</button>
+  <h2>Dodge Squares</h2>
+  <div style="width:60px"></div>
+</header>
+
+<main class="game-wrap">
+  <p>Desvie dos quadrados pelo maior tempo possível!</p>
+
+  <canvas id="game" width="400" height="500"></canvas>
+  <div class="score">Tempo vivo: <span id="time">0</span>s</div>
+  <div class="score">Recorde: <span id="best">0</span>s</div>
+
+  <button class="btn" style="margin-top:15px" onclick="startGame()">Reiniciar</button>
+</main>
+
+<script>
+/*
+  Minigame simples: desviar de quadrados.
+  Controla o player com o dedo (mobile) ou mouse.
+  Pontuação salva em localStorage.
+*/
+
+let ctx, canvas;
+let player = { x: 200, y: 450, size: 20 };
+let enemies = [];
+let running = false;
+let startTime = 0;
+let loopId;
+
+function rand(min, max){ return Math.random() * (max-min) + min; }
+
+function reset(){
+  enemies = [];
+  player.x = canvas.width / 2;
+  startTime = Date.now();
+  document.getElementById("time").innerText = 0;
+}
+
+function startGame(){
+  running = true;
+  reset();
+  cancelAnimationFrame(loopId);
+  gameLoop();
+}
+
+function gameLoop(){
+  if(!running) return;
+
+  const t = (Date.now() - startTime) / 1000;
+  document.getElementById("time").innerText = t.toFixed(1);
+
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+
+  // spawn enemies
+  if(Math.random() < 0.05){
+    enemies.push({
+      x: rand(0, canvas.width-20),
+      y: -20,
+      size: 20,
+      speed: rand(2,5)
+    });
+  }
+
+  // draw enemies
+  enemies.forEach(e=>{
+    e.y += e.speed;
+    ctx.fillStyle = "#e33";
+    ctx.fillRect(e.x, e.y, e.size, e.size);
+
+    // collision
+    if(
+      e.x < player.x + player.size &&
+      e.x + e.size > player.x &&
+      e.y < player.y + player.size &&
+      e.y + e.size > player.y
+    ){
+      finish(t);
+    }
+  });
+
+  // remove off-screen
+  enemies = enemies.filter(e=> e.y < canvas.height + 50);
+
+  // draw player
+  ctx.fillStyle = "#0f0";
+  ctx.fillRect(player.x, player.y, player.size, player.size);
+
+  loopId = requestAnimationFrame(gameLoop);
+}
+
+function finish(score){
+  running = false;
+
+  // save record
+  const best = Number(localStorage.getItem("gv_best_dodge") || 0);
+  if(score > best){
+    localStorage.setItem("gv_best_dodge", score);
+  }
+  document.getElementById("best").innerText = localStorage.getItem("gv_best_dodge");
+
+  alert("Você perdeu! Seu tempo: " + score.toFixed(1) + "s");
+}
+
+function init(){
+  canvas = document.getElementById("game");
+  ctx = canvas.getContext("2d");
+
+  document.getElementById("best").innerText =
+    localStorage.getItem("gv_best_dodge") || 0;
+
+  // player move (mouse)
+  canvas.addEventListener("mousemove", e=>{
+    const rect = canvas.getBoundingClientRect();
+    player.x = e.clientX - rect.left - player.size/2;
+  });
+
+  // player move (touch)
+  canvas.addEventListener("touchmove", e=>{
+    const rect = canvas.getBoundingClientRect();
+    const t = e.touches[0];
+    player.x = t.clientX - rect.left - player.size/2;
+  });
+
+  startGame();
+}
+
+document.addEventListener("DOMContentLoaded", init);
+</script>
+
+</body>
+</html>
