@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Space Blaster FX - NeoArcadia</title>
+    <link rel="stylesheet" href="styles.css">
+
+    <style>
+        body {
+            background: #000;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .game-area {
+            width: 100%;
+            height: 100vh;
+            background: radial-gradient(circle, #00111f, #000);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ship {
+            width: 50px;
+            height: 50px;
+            background: #00eaff;
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 6px;
+        }
+
+        .bullet {
+            width: 8px;
+            height: 20px;
+            background: #00ff95;
+            position: absolute;
+            border-radius: 4px;
+        }
+
+        .enemy {
+            width: 40px;
+            height: 40px;
+            background: #ff0059;
+            position: absolute;
+            top: -50px;
+            border-radius: 6px;
+        }
+
+        .hud {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: white;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="hud">Pontuação: <span id="score">0</span></div>
+
+<div class="game-area" id="gameArea">
+    <div class="ship" id="ship"></div>
+</div>
+
+<script>
+    const ship = document.getElementById("ship");
+    const game = document.getElementById("gameArea");
+    const scoreEl = document.getElementById("score");
+
+    let score = 0;
+    let shipX = window.innerWidth / 2;
+
+    document.addEventListener("mousemove", e => {
+        shipX = e.clientX;
+        ship.style.left = shipX - 25 + "px";
+    });
+
+    document.addEventListener("click", shoot);
+
+    function shoot() {
+        const bullet = document.createElement("div");
+        bullet.classList.add("bullet");
+        bullet.style.left = shipX - 4 + "px";
+        bullet.style.bottom = "60px";
+        game.appendChild(bullet);
+
+        const fly = setInterval(() => {
+            const y = parseInt(bullet.style.bottom);
+            if (y > window.innerHeight) {
+                bullet.remove();
+                clearInterval(fly);
+            }
+            bullet.style.bottom = y + 8 + "px";
+
+            document.querySelectorAll(".enemy").forEach(enemy => {
+                const b = bullet.getBoundingClientRect();
+                const e = enemy.getBoundingClientRect();
+
+                if (!(b.right < e.left || b.left > e.right || b.bottom < e.top || b.top > e.bottom)) {
+                    enemy.remove();
+                    bullet.remove();
+                    score++;
+                    scoreEl.textContent = score;
+                    clearInterval(fly);
+                }
+            });
+        }, 10);
+    }
+
+    function spawnEnemy() {
+        const enemy = document.createElement("div");
+        enemy.classList.add("enemy");
+
+        const x = Math.random() * (window.innerWidth - 50);
+        enemy.style.left = x + "px";
+        game.appendChild(enemy);
+
+        let pos = -40;
+
+        const walk = setInterval(() => {
+            pos += 3;
+            enemy.style.top = pos + "px";
+
+            const s = ship.getBoundingClientRect();
+            const e = enemy.getBoundingClientRect();
+
+            if (!(s.right < e.left || s.left > e.right || s.bottom < e.top || s.top > e.bottom)) {
+                alert("💥 Sua nave explodiu! Pontuação final: " + score);
+                window.location.reload();
+            }
+
+            if (pos > window.innerHeight) {
+                enemy.remove();
+                clearInterval(walk);
+            }
+        }, 20);
+    }
+
+    setInterval(spawnEnemy, 900);
+</script>
+
+</body>
+</html>
