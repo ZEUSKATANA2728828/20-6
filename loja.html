@@ -1,38 +1,195 @@
+<!-- loja.html -->
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Loja — GameX</title><link rel="stylesheet" href="styles.css"><script defer src="script.js"></script></head>
-<body class="site-bg">
-  <header class="topbar"><div class="topbar-inner"><div class="brand">GameX</div><nav class="top-nav"><a href="main.html">Home</a><a href="minigames.html">Minigames</a></nav></div></header>
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Loja — Project X</title>
+<style>
+  :root{
+    --bg:#071021;
+    --card:#0f1b2b;
+    --accent:#00c8ff;
+    --accent-2:#6cf;
+    --muted:#96a3b8;
+  }
+  html,body{height:100%;margin:0;font-family:Inter,Arial,Helvetica,sans-serif;background:linear-gradient(180deg,var(--bg),#041322);color:#eaf6ff}
+  header{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;background:rgba(255,255,255,0.02);backdrop-filter:blur(6px);border-bottom:1px solid rgba(255,255,255,0.03)}
+  header h1{margin:0;font-size:18px;letter-spacing:0.6px}
+  header .right{display:flex;gap:10px;align-items:center}
+  .backbtn{background:transparent;border:1px solid rgba(255,255,255,0.04);padding:8px 10px;border-radius:8px;color:var(--muted);cursor:pointer}
+  .coins-bubble{background:linear-gradient(90deg,var(--accent),var(--accent-2));padding:8px 12px;border-radius:999px;color:#012029;font-weight:700}
+  main{padding:20px;max-width:1100px;margin:18px auto;display:grid;grid-template-columns:1fr 360px;gap:22px}
+  .catalog{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:18px}
+  .card{background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));border-radius:12px;padding:12px;border:1px solid rgba(255,255,255,0.03);box-shadow:0 6px 18px rgba(2,6,12,0.6);display:flex;flex-direction:column;gap:10px;min-height:160px}
+  .card img{width:100%;height:110px;object-fit:cover;border-radius:8px;border:1px solid rgba(255,255,255,0.03)}
+  .card h3{margin:0;font-size:16px}
+  .card p{margin:0;color:var(--muted);font-size:13px}
+  .card .meta{display:flex;justify-content:space-between;align-items:center;margin-top:auto}
+  .buybtn{background:var(--accent);color:#00161f;padding:8px 12px;border-radius:8px;border:none;cursor:pointer;font-weight:700;box-shadow:0 6px 12px rgba(0,200,255,0.06)}
+  .buybtn.small{padding:6px 10px;font-size:14px}
+  .sidebar{background:var(--card);padding:14px;border-radius:12px;border:1px solid rgba(255,255,255,0.03)}
+  .sidebar h2{margin:0 0 10px 0}
+  .preview{height:180px;background:linear-gradient(135deg,#021426,#04263b);display:flex;align-items:center;justify-content:center;border-radius:10px;border:1px solid rgba(255,255,255,0.03)}
+  .preview img{max-width:96%;max-height:96%;border-radius:8px}
+  .small{font-size:13px;color:var(--muted)}
+  .owned{background:#22333b;color:#a6ffd9;padding:6px 8px;border-radius:8px;font-weight:700;border:1px solid rgba(255,255,255,0.02)}
+  .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:22px;background:rgba(0,0,0,0.6);color:#fff;padding:10px 14px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);display:none}
+  footer{max-width:1100px;margin:22px auto;text-align:center;color:var(--muted);font-size:13px}
+  @media(max-width:920px){main{grid-template-columns:1fr;padding:12px} .sidebar{order:2}}
+</style>
+</head>
+<body>
 
-  <main class="center-wrap">
-    <h1 class="title">Loja</h1>
-    <div class="shop-grid">
-      <div class="shop-card">
-        <img src="https://i.imgur.com/5bJ6pQG.png" alt="skin" />
-        <h3>Skin Fire</h3>
-        <p class="small-muted">200 coins</p>
-        <button class="btn" onclick="buyItem('skin_fire',200)">Comprar</button>
-      </div>
+<header>
+  <button class="backbtn" onclick="location.href='main.html'">⬅ Voltar</button>
+  <h1>Loja — Project X</h1>
+  <div class="right">
+    <div class="small">Saldo</div>
+    <div class="coins-bubble" id="coinsBubble">0</div>
+  </div>
+</header>
 
-      <div class="shop-card">
-        <img src="https://i.imgur.com/5bJ6pQG.png" alt="skin" />
-        <h3>Skin Ice</h3>
-        <p class="small-muted">350 coins</p>
-        <button class="btn" onclick="buyItem('skin_ice',350)">Comprar</button>
-      </div>
-
-      <div class="shop-card">
-        <img src="https://i.imgur.com/5bJ6pQG.png" alt="skin" />
-        <h3>Lootbox</h3>
-        <p class="small-muted">Grátis uma vez por dia</p>
-        <button class="btn" onclick="openLootbox()">Abrir Lootbox</button>
-        <div id="lootResult" class="small-muted" style="margin-top:8px"></div>
-      </div>
+<main>
+  <section>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+      <h2 style="margin:0">Skins & Itens</h2>
+      <div class="small">Sem integração — compras locais (wallet local)</div>
     </div>
 
-    <div style="margin-top:12px"><a class="btn ghost" href="main.html">Voltar</a></div>
-  </main>
+    <div class="catalog" id="catalog"></div>
+  </section>
 
-  <footer class="footer">© GameX</footer>
+  <aside class="sidebar">
+    <h2>Preview / Carrinho</h2>
+    <div class="preview" id="preview">
+      <div class="small">Selecione um item para ver</div>
+    </div>
+
+    <div style="margin-top:12px;display:flex;gap:8px;align-items:center">
+      <button class="buybtn small" id="buyBtn" onclick="buySelected()" disabled>Comprar</button>
+      <button class="backbtn" onclick="grantCoins(50)">+50 Coins</button>
+    </div>
+
+    <div style="margin-top:12px">
+      <div class="small">Itens Possuídos</div>
+      <div id="ownedList" style="margin-top:8px;display:flex;flex-direction:column;gap:8px"></div>
+    </div>
+  </aside>
+</main>
+
+<div class="toast" id="toast"></div>
+<footer>Project X — Loja local • Sem pagamentos reais</footer>
+
+<script>
+  // catálogo local (pode editar/adicionar)
+  const STORE = [
+    { id: 'skin_shadow', title:'Shadow Warrior', price: 30, desc:'Skin sombria com neon azul', img:'https://i.imgur.com/3QKXk1M.jpeg' },
+    { id: 'skin_tech',   title:'Techno Blade',  price: 55, desc:'Futurista com detalhes animados', img:'https://i.imgur.com/qb7Gf3f.jpeg' },
+    { id: 'skin_gold',   title:'Golden Knight', price: 90, desc:'Skin dourada lendária', img:'https://i.imgur.com/2Yf9pKq.jpeg' },
+    { id: 'emote_hype',  title:'Emote: Hype',   price: 12, desc:'Emote animado para chat', img:'https://i.imgur.com/7uQw9kA.png' },
+    { id: 'trail_neon',  title:'Trail Neon',    price: 18, desc:'Rastro neon para personagem', img:'https://i.imgur.com/5bJ3kXq.png' }
+  ];
+
+  // storage keys
+  const KEY_COINS = 'px_coins';
+  const KEY_OWNED = 'px_owned';
+  const KEY_SELECTED = 'px_selected';
+
+  // helpers
+  function $(id){ return document.getElementById(id) }
+  function toast(text, t=2000){
+    const el = $('toast');
+    el.textContent = text;
+    el.style.display = 'block';
+    clearTimeout(el._h);
+    el._h = setTimeout(()=> el.style.display = 'none', t);
+  }
+
+  // init wallet + owned
+  let coins = parseInt(localStorage.getItem(KEY_COINS) || '100',10);
+  let owned = JSON.parse(localStorage.getItem(KEY_OWNED) || '[]');
+  let selected = localStorage.getItem(KEY_SELECTED) || null;
+
+  $('coinsBubble').textContent = coins;
+
+  function renderCatalog(){
+    const box = $('catalog');
+    box.innerHTML = '';
+    STORE.forEach(item=>{
+      const isOwned = owned.includes(item.id);
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `
+        <img src="${item.img}" alt="${item.title}">
+        <h3>${item.title}</h3>
+        <p>${item.desc}</p>
+        <div class="meta">
+          <div class="small">${item.price} coins</div>
+          <div>
+            ${isOwned?'<span class="owned">Possuído</span>':`<button class="buybtn small" onclick="selectItem('${item.id}')">Ver & Comprar</button>`}
+          </div>
+        </div>
+      `;
+      box.appendChild(card);
+    });
+  }
+
+  function renderOwned(){
+    const box = $('ownedList');
+    box.innerHTML = '';
+    if(owned.length===0){ box.innerHTML = '<div class="small">Nenhum item</div>'; return; }
+    owned.forEach(id=>{
+      const it = STORE.find(s=>s.id===id);
+      if(!it) return;
+      const el = document.createElement('div');
+      el.style.display = 'flex';
+      el.style.justifyContent = 'space-between';
+      el.style.alignItems = 'center';
+      el.innerHTML = `<div class="small">${it.title}</div><div class="owned">Usar</div>`;
+      box.appendChild(el);
+    });
+  }
+
+  function selectItem(id){
+    const it = STORE.find(s=>s.id===id);
+    if(!it) return;
+    selected = it.id;
+    localStorage.setItem(KEY_SELECTED, selected);
+    $('preview').innerHTML = `<img src="${it.img}" alt="${it.title}">`;
+    $('buyBtn').disabled = owned.includes(it.id);
+    $('buyBtn').textContent = owned.includes(it.id) ? 'Possuído' : `Comprar • ${it.price}c`;
+    $('buyBtn').dataset.price = it.price;
+  }
+
+  function buySelected(){
+    if(!selected) return toast('Selecione um item.');
+    const it = STORE.find(s=>s.id===selected);
+    if(!it) return;
+    if(owned.includes(it.id)) return toast('Você já possui esse item.');
+    if(coins < it.price) return toast('Saldo insuficiente.');
+    coins -= it.price;
+    owned.push(it.id);
+    localStorage.setItem(KEY_COINS, coins);
+    localStorage.setItem(KEY_OWNED, JSON.stringify(owned));
+    $('coinsBubble').textContent = coins;
+    renderCatalog();
+    renderOwned();
+    selectItem(it.id);
+    toast('Compra realizada com sucesso!');
+  }
+
+  function grantCoins(n){
+    coins += n;
+    localStorage.setItem(KEY_COINS, coins);
+    $('coinsBubble').textContent = coins;
+    toast(`+${n} coins adicionadas`);
+  }
+
+  // initial render
+  renderCatalog();
+  renderOwned();
+  if(selected) selectItem(selected);
+</script>
 </body>
 </html>
