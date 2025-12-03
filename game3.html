@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galaxy Shooter X - NeoArcadia</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            background: black;
+        }
+
+        .game-area {
+            width: 100%;
+            max-width: 480px;
+            height: 600px;
+            background: radial-gradient(circle, #000428, #000000);
+            margin: 25px auto;
+            border: 2px solid #4af5ff;
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ship {
+            width: 40px;
+            height: 40px;
+            background: #4af5ff;
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 4px;
+        }
+
+        .enemy {
+            width: 35px;
+            height: 35px;
+            background: #ff2d55;
+            position: absolute;
+            top: -50px;
+            border-radius: 4px;
+        }
+
+        .bullet {
+            width: 6px;
+            height: 14px;
+            background: yellow;
+            position: absolute;
+            border-radius: 2px;
+        }
+
+        .hud {
+            color: white;
+            text-align: center;
+            font-size: 20px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1 class="title">Galaxy Shooter X</h1>
+    <p class="subtitle">Destrua os inimigos e sobreviva!</p>
+
+    <nav class="navbar">
+        <a href="main.html">⬅️ Voltar ao Menu</a>
+    </nav>
+</header>
+
+<div class="hud">
+    <p>Pontuação: <span id="score">0</span></p>
+</div>
+
+<div class="game-area" id="game">
+    <div class="ship" id="ship"></div>
+</div>
+
+<script>
+    const ship = document.getElementById("ship");
+    const game = document.getElementById("game");
+    const scoreEl = document.getElementById("score");
+
+    let score = 0;
+    let shipX = 50;
+
+    // movimentação
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowLeft" && shipX > 5) shipX -= 5;
+        if (e.key === "ArrowRight" && shipX < 95) shipX += 5;
+        if (e.key === " ") shoot();
+
+        ship.style.left = shipX + "%";
+    });
+
+    // tiro
+    function shoot() {
+        const bullet = document.createElement("div");
+        bullet.classList.add("bullet");
+        bullet.style.left = ship.offsetLeft + 17 + "px";
+        bullet.style.bottom = "60px";
+
+        game.appendChild(bullet);
+
+        const move = setInterval(() => {
+            bullet.style.bottom = bullet.offsetTop + 10 + "px";
+
+            document.querySelectorAll(".enemy").forEach(enemy => {
+                const b = bullet.getBoundingClientRect();
+                const e = enemy.getBoundingClientRect();
+
+                if (!(b.right < e.left || b.left > e.right || b.bottom < e.top || b.top > e.bottom)) {
+                    score += 10;
+                    scoreEl.textContent = score;
+                    enemy.remove();
+                    bullet.remove();
+                }
+            });
+
+            if (bullet.offsetTop < -20) {
+                bullet.remove();
+                clearInterval(move);
+            }
+        }, 25);
+    }
+
+    // inimigos
+    function spawnEnemy() {
+        const enemy = document.createElement("div");
+        enemy.classList.add("enemy");
+
+        enemy.style.left = Math.random() * 440 + "px";
+        game.appendChild(enemy);
+
+        let y = -40;
+
+        const fall = setInterval(() => {
+            y += 3;
+            enemy.style.top = y + "px";
+
+            const sR = ship.getBoundingClientRect();
+            const eR = enemy.getBoundingClientRect();
+
+            if (!(sR.right < eR.left || sR.left > eR.right || sR.bottom < eR.top || sR.top > eR.bottom)) {
+                alert("💀 Você foi destruído! Pontuação final: " + score);
+                window.location.reload();
+            }
+
+            if (y > 620) {
+                enemy.remove();
+                clearInterval(fall);
+            }
+        }, 30);
+    }
+
+    setInterval(spawnEnemy, 900);
+</script>
+
+<footer>
+    <p>NeoArcadia © 2025 — Galaxy Shooter X</p>
+</footer>
+
+</body>
+</html>
