@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Co-op Multiplayer — GamerWorld</title>
+
+<style>
+    body {
+        margin: 0;
+        background: #080808;
+        color: #fff;
+        font-family: Arial, sans-serif;
+    }
+
+    header {
+        text-align: center;
+        padding: 18px;
+        background: #111;
+        font-size: 22px;
+        border-bottom: 1px solid #333;
+    }
+
+    .area {
+        padding: 15px;
+    }
+
+    /* Painel */
+    .panel {
+        background: #111;
+        border: 1px solid #333;
+        padding: 15px;
+        border-radius: 10px;
+        margin-bottom: 18px;
+    }
+
+    .title {
+        font-size: 20px;
+        margin-bottom: 8px;
+        color: #6cf;
+    }
+
+    /* Barras */
+    .hp-back {
+        height: 18px;
+        background: #333;
+        border-radius: 8px;
+    }
+    .hp-front {
+        height: 18px;
+        background: linear-gradient(90deg, #e33, #f66);
+        border-radius: 8px;
+        width: 100%;
+        transition: 0.3s;
+    }
+
+    .ally {
+        margin-top: 12px;
+    }
+
+    .ally-name {
+        font-size: 14px;
+        margin-bottom: 4px;
+    }
+
+    .hp-front-ally {
+        height: 14px;
+        background: linear-gradient(90deg, #6cf, #4ad);
+        border-radius: 8px;
+        width: 100%;
+        transition: 0.3s;
+    }
+
+    /* Eventos */
+    #events {
+        height: 120px;
+        overflow-y: auto;
+        background: #0b0b0b;
+        border: 1px solid #222;
+        padding: 8px;
+        border-radius: 8px;
+        margin-top: 10px;
+    }
+
+    #events p {
+        margin: 4px 0;
+        color: #ccc;
+    }
+
+    /* Chat */
+    #chat {
+        background: #111;
+        padding: 15px;
+        border-radius: 10px;
+        border: 1px solid #333;
+    }
+
+    #chatBox {
+        height: 150px;
+        overflow-y: auto;
+        background: #0d0d0d;
+        border-radius: 8px;
+        padding: 10px;
+        border: 1px solid #222;
+    }
+
+    #chatBox p { margin: 4px 0; }
+    .me { color: #6cf; }
+    .bot { color: #ff7b7b; }
+
+    #chatInput {
+        width: 100%;
+        padding: 10px;
+        margin-top: 8px;
+        background: #1a1a1a;
+        border: 1px solid #444;
+        border-radius: 6px;
+        color: #fff;
+    }
+
+    .btn {
+        margin-top: 10px;
+        padding: 10px 14px;
+        background: #6cf;
+        border: none;
+        border-radius: 6px;
+        color: #000;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    .back {
+        text-decoration: none;
+        color: #6cf;
+        display: inline-block;
+        margin-top: 20px;
+    }
+</style>
+
+<script>
+let wave = 1;
+let hpTeam = 100;
+let allies = [
+    { name: "AlphaBot", hp: 100 },
+    { name: "CyberFox", hp: 100 }
+];
+
+function start() {
+    showEvent("➡ Iniciando modo Co-op...");
+    showEvent("➡ Wave 1 chegando...");
+    simulateWave();
+}
+
+function simulateWave() {
+    setInterval(() => {
+        if (hpTeam <= 0) return;
+
+        const damage = Math.floor(Math.random() * 10) + 4;
+        hpTeam -= damage;
+        if (hpTeam < 0) hpTeam = 0;
+        updateHPTeam();
+
+        const target = Math.floor(Math.random() * allies.length);
+        allies[target].hp -= Math.floor(Math.random() * 8) + 3;
+        if (allies[target].hp < 0) allies[target].hp = 0;
+        updateAllies();
+
+        showEvent(`⚠ A wave atacou causando ${damage} de dano!`);
+
+        if (hpTeam <= 0) {
+            showEvent("💀 O time foi derrotado!");
+        }
+    }, 1500);
+
+    setInterval(() => {
+        chatBot("AlphaBot: Opa, cuidado!");
+    }, 5500);
+}
+
+function updateHPTeam() {
+    document.getElementById("hpTeam").style.width = hpTeam + "%";
+}
+
+function updateAllies() {
+    allies.forEach((a, i) => {
+        document.getElementById("allyHP" + i).style.width = a.hp + "%";
+    });
+}
+
+function showEvent(t) {
+    const box = document.getElementById("events");
+    let p = document.createElement("p");
+    p.textContent = t;
+    box.appendChild(p);
+    box.scrollTop = box.scrollHeight;
+}
+
+function sendMsg() {
+    const input = document.getElementById("chatInput");
+    if (input.value.trim() === "") return;
+    addChat("Você: " + input.value, "me");
+
+    setTimeout(() => {
+        chatBot("CyberFox: kkkkk verdade");
+    }, 1200);
+
+    input.value = "";
+}
+
+function addChat(msg, cls) {
+    const box = document.getElementById("chatBox");
+    let p = document.createElement("p");
+    p.className = cls;
+    p.textContent = msg;
+    box.appendChild(p);
+    box.scrollTop = box.scrollHeight;
+}
+
+function chatBot(msg) {
+    addChat(msg, "bot");
+}
+
+window.onload = start;
+</script>
+
+</head>
+<body>
+
+<header>🤝 Multiplayer — Modo Co-op (Fake)</header>
+
+<div class="area">
+
+    <!-- Vida do time -->
+    <div class="panel">
+        <div class="title">❤️ Vida do Time</div>
+        <div class="hp-back">
+            <div id="hpTeam" class="hp-front"></div>
+        </div>
+    </div>
+
+    <!-- Aliados -->
+    <div class="panel">
+        <div class="title">🤖 Bots Aliados</div>
+
+        <div class="ally">
+            <div class="ally-name">AlphaBot</div>
+            <div class="hp-back"><div id="allyHP0" class="hp-front-ally"></div></div>
+        </div>
+
+        <div class="ally">
+            <div class="ally-name">CyberFox</div>
+            <div class="hp-back"><div id="allyHP1" class="hp-front-ally"></div></div>
+        </div>
+    </div>
+
+    <!-- Eventos -->
+    <div class="panel">
+        <div class="title">📢 Eventos</div>
+        <div id="events"></div>
+    </div>
+
+    <!-- Chat -->
+    <div id="chat">
+        <div id="chatBox"></div>
+        <input id="chatInput" placeholder="Enviar mensagem..." 
+               onkeydown="if(event.key === 'Enter') sendMsg()">
+        <button class="btn" onclick="sendMsg()">Enviar</button>
+    </div>
+
+    <a class="back" href="home.html">⬅ Voltar</a>
+
+</div>
+
+</body>
+</html>
