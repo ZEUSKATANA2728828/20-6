@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loja - Neo Universe</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header>
+    <h1>🛒 Loja do Neo Universe</h1>
+    <nav>
+        <a href="index.html">Início</a>
+        <a href="leaderboard.html">Ranking</a>
+        <a href="achievements.html">Conquistas</a>
+        <a href="store.html" class="active">Loja</a>
+        <a href="profile.html">Perfil</a>
+    </nav>
+</header>
+
+<main>
+    <section class="store-items">
+        <h2>Itens disponíveis</h2>
+        <div class="grid">
+
+            <div class="item-card">
+                <h3>💎 100 Gems</h3>
+                <p>Use gems para desbloquear skins, modos e bônus.</p>
+                <button onclick="buyItem('100 Gems', 5)">Comprar – R$ 5,00</button>
+            </div>
+
+            <div class="item-card">
+                <h3>💎 500 Gems</h3>
+                <p>Pacote intermediário para evoluir mais rápido.</p>
+                <button onclick="buyItem('500 Gems', 15)">Comprar – R$ 15,00</button>
+            </div>
+
+            <div class="item-card">
+                <h3>💎 1200 Gems</h3>
+                <p>Pacote mega com bônus extra.</p>
+                <button onclick="buyItem('1200 Gems', 25)">Comprar – R$ 25,00</button>
+            </div>
+
+            <div class="item-card">
+                <h3>✨ Skin Exclusiva</h3>
+                <p>Skin rara disponível apenas nesta loja.</p>
+                <button onclick="buyItem('Skin Exclusiva', 10)">Comprar – R$ 10,00</button>
+            </div>
+
+            <div class="item-card">
+                <h3>⚡ Boost XP x2 – 24h</h3>
+                <p>Dobre toda XP conquistada durante 24h.</p>
+                <button onclick="buyItem('XP Boost', 7)">Comprar – R$ 7,00</button>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="log-section">
+        <h2>📄 Histórico de compras (Fake)</h2>
+        <div id="purchaseLog" class="log-box">
+            Nenhuma compra ainda.
+        </div>
+    </section>
+</main>
+
+<script>
+function buyItem(item, price) {
+    const log = document.getElementById("purchaseLog");
+
+    const time = new Date().toLocaleString("pt-BR");
+
+    const entry = `🛒 Você comprou **${item}** por R$${price},00 — (${time})<br>`;
+
+    log.innerHTML = entry + log.innerHTML;
+}
+</script>
+
+<footer>
+    <p>© 2025 Neo Universe — Sistema de Loja Fake</p>
+</footer>
+
+</body>
+</html>
