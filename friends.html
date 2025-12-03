@@ -1,0 +1,143 @@
+<!-- friends.html -->
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Amigos — GameVerse</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="app-bg">
+  <header class="topbar">
+    <button class="btn small" onclick="history.back()">Voltar</button>
+    <h2>Amigos</h2>
+    <div style="width:60px"></div>
+  </header>
+
+  <main class="page-wrap">
+    <section class="card">
+      <h3>Solicitações de amizade</h3>
+      <div id="requestsList" class="list"></div>
+    </section>
+
+    <section class="card" style="margin-top:18px">
+      <h3>Seus amigos</h3>
+      <div id="friendsList" class="list"></div>
+    </section>
+
+    <section class="card" style="margin-top:18px">
+      <h3>Pesquisar jogador</h3>
+      <div style="display:flex;gap:8px;align-items:center">
+        <input id="searchInput" class="input" placeholder="Digite o nome...">
+        <button class="btn" onclick="searchPlayer()">Procurar</button>
+      </div>
+      <div id="searchResult" style="margin-top:12px"></div>
+    </section>
+  </main>
+
+<script>
+/*
+  friends.html — sistema local/fake de amigos
+  - friends stored in localStorage key 'gv_friends' (array of names)
+  - requests in 'gv_friend_requests'
+*/
+
+const FRIENDS_KEY = 'gv_friends';
+const REQ_KEY = 'gv_friend_requests';
+
+function getFriends(){ try{ return JSON.parse(localStorage.getItem(FRIENDS_KEY) || '[]'); }catch(e){return []} }
+function getRequests(){ try{ return JSON.parse(localStorage.getItem(REQ_KEY) || '[]'); }catch(e){return []} }
+function saveFriends(a){ localStorage.setItem(FRIENDS_KEY, JSON.stringify(a)); }
+function saveRequests(a){ localStorage.setItem(REQ_KEY, JSON.stringify(a)); }
+
+function renderFriends(){
+  const box = document.getElementById('friendsList');
+  const friends = getFriends();
+  box.innerHTML = '';
+  if(friends.length===0){ box.innerHTML = '<div class="muted">Nenhum amigo ainda</div>'; return; }
+  friends.forEach(n=>{
+    const el = document.createElement('div');
+    el.className = 'list-item';
+    el.innerHTML = `<div><strong>${escapeHtml(n)}</strong><div class="muted">Online (fake)</div></div>
+      <div><button class="btn small ghost" onclick="removeFriend('${n}')">Remover</button></div>`;
+    box.appendChild(el);
+  });
+}
+
+function renderRequests(){
+  const box = document.getElementById('requestsList');
+  const reqs = getRequests();
+  box.innerHTML = '';
+  if(reqs.length===0){ box.innerHTML = '<div class="muted">Sem solicitações</div>'; return; }
+  reqs.forEach(n=>{
+    const el = document.createElement('div');
+    el.className = 'list-item';
+    el.innerHTML = `<div><strong>${escapeHtml(n)}</strong><div class="muted">quer ser seu amigo</div></div>
+      <div style="display:flex;gap:8px">
+        <button class="btn small" onclick="acceptRequest('${n}')">Aceitar</button>
+        <button class="btn small ghost" onclick="declineRequest('${n}')">Recusar</button>
+      </div>`;
+    box.appendChild(el);
+  });
+}
+
+function searchPlayer(){
+  const q = document.getElementById('searchInput').value.trim();
+  const out = document.getElementById('searchResult');
+  out.innerHTML = '';
+  if(!q) { out.innerHTML = '<div class="muted">Digite um nome</div>'; return; }
+  // fake search -> suggest friend add
+  out.innerHTML = `<div class="list-item"><div><strong>${escapeHtml(q)}</strong><div class="muted">Jogador encontrado (fake)</div></div>
+    <div><button class="btn" onclick="sendRequest('${escapeHtml(q)}')">Enviar solicitação</button></div></div>`;
+}
+
+function sendRequest(name){
+  let reqs = getRequests();
+  if(reqs.includes(name)){ toast('Solicitação já enviada'); return; }
+  reqs.push(name);
+  saveRequests(reqs);
+  renderRequests();
+  toast('Solicitação enviada (simulada)');
+}
+
+function acceptRequest(name){
+  let reqs = getRequests();
+  reqs = reqs.filter(r=> r !== name);
+  saveRequests(reqs);
+  let friends = getFriends();
+  if(!friends.includes(name)) friends.push(name);
+  saveFriends(friends);
+  renderRequests();
+  renderFriends();
+  toast('Amizade aceita!');
+}
+
+function declineRequest(name){
+  let reqs = getRequests();
+  reqs = reqs.filter(r=> r !== name);
+  saveRequests(reqs);
+  renderRequests();
+  toast('Solicitação recusada');
+}
+
+function removeFriend(name){
+  if(!confirm('Remover '+name+' dos amigos?')) return;
+  let friends = getFriends();
+  friends = friends.filter(f=> f !== name);
+  saveFriends(friends);
+  renderFriends();
+  toast('Amigo removido');
+}
+
+function escapeHtml(s){ return String(s).replace(/[&<>"'`]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;','`':'&#96;'})[c]); }
+
+function toast(t){ try{ alert(t); }catch(e){ console.log(t); } }
+
+// initial
+document.addEventListener('DOMContentLoaded', ()=>{
+  renderFriends();
+  renderRequests();
+});
+</script>
+</body>
+</html>
