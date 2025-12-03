@@ -1,79 +1,131 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>GameX — Painel</title>
-  <link rel="stylesheet" href="styles.css">
-  <script defer src="script.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Principal - Project X</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #090d1a, #101b33, #1b2a55);
+            color: white;
+            overflow-x: hidden;
+        }
+
+        header {
+            background: rgba(255,255,255,0.08);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(5px);
+            border-bottom: 1px solid rgba(255,255,255,0.15);
+        }
+
+        .user-box {
+            font-size: 15px;
+            opacity: 0.85;
+        }
+
+        .coins {
+            background: gold;
+            color: black;
+            padding: 6px 10px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 25px;
+        }
+
+        .menu-grid {
+            margin-top: 30px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+            padding: 20px;
+        }
+
+        .btn {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 25px 10px;
+            text-align: center;
+            border-radius: 15px;
+            font-size: 20px;
+            cursor: pointer;
+            transition: 0.2s;
+            backdrop-filter: blur(4px);
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            background: rgba(255,255,255,0.15);
+        }
+
+        footer {
+            text-align: center;
+            padding: 15px;
+            opacity: 0.6;
+            margin-top: 15px;
+        }
+    </style>
 </head>
-<body class="site-bg">
-  <header class="topbar">
-    <div class="topbar-inner">
-      <div class="brand">GameX</div>
-      <nav class="top-nav">
-        <a href="main.html">Home</a>
-        <a href="loja.html">Loja</a>
-        <a href="minigames.html">Minijogos</a>
-        <a href="historia.html">História</a>
-        <a href="multiplayer.html">Multiplayer</a>
-        <a href="termos.html">Termos</a>
-      </nav>
-      <div class="user-area">
-        <span id="userName">Visitante</span>
-        <button class="btn small ghost" onclick="logout()">Sair</button>
-      </div>
+
+<body>
+
+<header>
+    <div class="user-box">
+        <div><b id="userNome">Usuário</b></div>
+        <div class="coins"><span id="coins">0</span> 💰</div>
     </div>
-  </header>
 
-  <main class="center-wrap">
-    <section class="hero">
-      <div class="hero-left">
-        <h1>Bem-vindo ao universo GameX</h1>
-        <p>Recupere a Luz Ancestral, equipe skins, suba de nível e divirta-se nos minijogos.</p>
-        <div class="btn-row">
-          <a class="btn btn-red" href="minigames.html">JOGAR AGORA</a>
-          <a class="btn ghost" href="multiplayer.html">MULTIPLAYER</a>
-        </div>
-      </div>
-      <div class="hero-right">
-        <div class="card hero-card">
-          <h3>Seu Progresso</h3>
-          <div id="profileSummary" class="small-muted">Carregando...</div>
-        </div>
-      </div>
-    </section>
+    <button onclick="logout()" style="
+        background: #c62828;
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 10px;
+        font-size: 16px;
+        cursor: pointer;
+    ">Sair</button>
+</header>
 
-    <section class="section-cards">
-      <div class="card">
-        <h3>Modos de Jogo</h3>
-        <p>História • Minigames • Multiplayer simulado</p>
-      </div>
-      <div class="card">
-        <h3>Loja</h3>
-        <p>Skins, lootbox e moedas</p>
-      </div>
-      <div class="card">
-        <h3>Missões & Pass</h3>
-        <p>Missões diárias e Battle Pass gratuito</p>
-      </div>
-      <div class="card">
-        <h3>Conquistas</h3>
-        <p>Desbloqueie títulos e recompensas</p>
-      </div>
-    </section>
-  </main>
+<h1>Menu Principal</h1>
 
-  <footer class="footer">© GameX — Built for you</footer>
+<div class="menu-grid">
+    <div class="btn" onclick="location.href='multiplayer.html'">🎮 Multiplayer</div>
+    <div class="btn" onclick="location.href='minigames.html'">🕹 Minigames</div>
+    <div class="btn" onclick="location.href='loja.html'">🏪 Loja</div>
+    <div class="btn" onclick="location.href='historia.html'">📘 História</div>
+    <div class="btn" onclick="location.href='fps.html'">🔫 FPS Mode</div>
+    <div class="btn" onclick="location.href='football.html'">⚽ Football</div>
+</div>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', ()=>{
-      const user = localStorage.getItem('gx_logged') || 'Visitante';
-      document.getElementById('userName').innerText = user;
-      const p = getProfile();
-      if(p) document.getElementById('profileSummary').innerText = `Nível ${p.level} • XP ${p.xp} • Coins ${p.coins}`;
-      else document.getElementById('profileSummary').innerText = 'Sem perfil';
-    });
-  </script>
+<footer>
+    Project X • v1.0  
+</footer>
+
+<script>
+    // VERIFICAR LOGIN
+    let atual = JSON.parse(localStorage.getItem("userLogado") || "null");
+
+    if (!atual) {
+        location.href = "login.html";
+    }
+
+    document.getElementById("userNome").textContent = atual.nome;
+    document.getElementById("coins").textContent = atual.coins;
+
+    function logout() {
+        localStorage.removeItem("userLogado");
+        location.href = "login.html";
+    }
+</script>
+
 </body>
 </html>
