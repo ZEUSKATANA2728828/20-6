@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil - Neo Universe</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header>
+    <h1>👤 Seu Perfil</h1>
+    <nav>
+        <a href="index.html">Início</a>
+        <a href="leaderboard.html">Ranking</a>
+        <a href="achievements.html">Conquistas</a>
+        <a href="store.html">Loja</a>
+        <a href="profile.html" class="active">Perfil</a>
+    </nav>
+</header>
+
+<main>
+
+<section class="profile-info">
+    <h2>Informações do Jogador</h2>
+
+    <div class="profile-card">
+        <img src="https://i.imgur.com/3GvwU8t.png" alt="Avatar" class="avatar">
+
+        <div class="info">
+            <p><strong>Nome:</strong> Jogador123</p>
+            <p><strong>Nível:</strong> 27</p>
+            <p><strong>XP Total:</strong> 48.230</p>
+            <p><strong>Moedas:</strong> 1.240</p>
+            <p><strong>Gems:</strong> 310</p>
+        </div>
+    </div>
+
+    <button onclick="editProfile()" class="button-primary">Editar Perfil</button>
+</section>
+
+<section class="profile-settings">
+    <h2>Configurações</h2>
+
+    <div class="settings-list">
+
+        <div class="setting-item">
+            <p><strong>Modo Noturno</strong></p>
+            <button onclick="toggleDarkMode()">Ativar/Desativar</button>
+        </div>
+
+        <div class="setting-item">
+            <p><strong>Alterar Avatar</strong></p>
+            <button onclick="changeAvatar()">Trocar</button>
+        </div>
+
+        <div class="setting-item">
+            <p><strong>Limpar Histórico</strong></p>
+            <button onclick="clearHistory()">Limpar</button>
+        </div>
+
+    </div>
+</section>
+
+<section class="history-section">
+    <h2>Histórico de Atividades</h2>
+    <div id="historyBox" class="log-box">
+        • Login realizado com sucesso.<br>
+        • Conquista “Explorador” desbloqueada.<br>
+        • Comprou pacote de 500 Gems.<br>
+    </div>
+</section>
+
+</main>
+
+<script>
+function editProfile() {
+    alert("Sistema de edição de perfil ainda será adicionado.");
+}
+
+function toggleDarkMode() {
+    document.body.classList.toggle("dark-mode");
+}
+
+function changeAvatar() {
+    alert("Função de trocar avatar ainda será adicionada.");
+}
+
+function clearHistory() {
+    document.getElementById("historyBox").innerHTML = "Histórico limpo.";
+}
+</script>
+
+<footer>
+    <p>© 2025 Neo Universe — Perfil do Jogador</p>
+</footer>
+
+</body>
+</html>
