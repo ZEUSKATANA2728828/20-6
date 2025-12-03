@@ -1,91 +1,230 @@
+<!-- skins.html -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Skins - GamerWorld</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #080808;
-            color: white;
-            margin: 0;
-            padding: 0;
-        }
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Skins — Project X</title>
 
-        header {
-            background: #111;
-            padding: 10px;
-            text-align: center;
-            font-size: 22px;
-            font-weight: bold;
-            border-bottom: 2px solid #444;
-        }
-
-        .container {
-            padding: 15px;
-        }
-
-        .skin {
-            background: #111;
-            border: 1px solid #333;
-            padding: 10px;
-            margin-bottom: 12px;
-            border-radius: 8px;
-        }
-
-        .skin h3 {
-            margin: 0 0 5px 0;
-            color: #6cf;
-        }
-
-        .btn {
-            margin-top: 8px;
-            display: inline-block;
-            background: #6cf;
-            color: #000;
-            padding: 8px 14px;
-            border-radius: 6px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .btn:hover {
-            background: #5ab;
-        }
-
-        .back {
-            margin-top: 20px;
-            display: inline-block;
-            color: #6cf;
-            text-decoration: none;
-        }
-    </style>
+<style>
+  :root{
+    --bg:#071021;
+    --card:#0f1b2b;
+    --accent:#00c8ff;
+    --accent2:#6cf;
+    --muted:#94a7c2;
+  }
+  html,body{
+    margin:0;
+    font-family:Inter,Arial;
+    background:linear-gradient(180deg,#06101f,#031321);
+    color:#e8f8ff;
+    height:100%;
+  }
+  header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:14px 16px;
+    background:rgba(255,255,255,0.02);
+    border-bottom:1px solid rgba(255,255,255,0.05);
+    backdrop-filter:blur(6px);
+  }
+  .backbtn{
+    background:#0002;
+    border:1px solid rgba(255,255,255,0.04);
+    padding:8px 12px;
+    border-radius:8px;
+    color:var(--muted);
+    cursor:pointer;
+  }
+  header h1{font-size:18px;margin:0;}
+  main{
+    max-width:1100px;
+    margin:20px auto;
+    padding:0 16px;
+    display:grid;
+    grid-template-columns:1fr 370px;
+    gap:22px;
+  }
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+    gap:16px;
+  }
+  .card{
+    background:linear-gradient(180deg,rgba(255,255,255,0.03),rgba(255,255,255,0.01));
+    padding:12px;
+    border-radius:12px;
+    border:1px solid rgba(255,255,255,0.05);
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    cursor:pointer;
+    transition:0.25s;
+  }
+  .card:hover{transform:scale(1.02)}
+  .card img{
+    width:100%;height:130px;object-fit:cover;
+    border-radius:8px;border:1px solid rgba(255,255,255,0.04);
+  }
+  .card h3{margin:0;font-size:16px}
+  .ownedTag{
+    background:#22333b;
+    color:#a6ffd9;
+    padding:6px 9px;
+    border-radius:8px;
+    font-size:13px;
+    font-weight:700;
+  }
+  aside{
+    background:var(--card);
+    border-radius:12px;
+    padding:16px;
+    border:1px solid rgba(255,255,255,0.04);
+  }
+  #preview{
+    background:linear-gradient(135deg,#021426,#08263b);
+    border-radius:12px;
+    height:240px;
+    border:1px solid rgba(255,255,255,0.03);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+  }
+  #preview img{
+    max-height:90%;
+    max-width:90%;
+    filter:drop-shadow(0 0 10px rgba(0,200,255,0.25));
+    transition:0.4s;
+  }
+  .applybtn{
+    margin-top:14px;
+    padding:10px;
+    background:var(--accent);
+    border:none;
+    color:#002129;
+    font-weight:700;
+    border-radius:10px;
+    cursor:pointer;
+  }
+  .small{color:var(--muted);font-size:13px}
+  .toast{
+    position:fixed;left:50%;transform:translateX(-50%);
+    bottom:20px;padding:10px 14px;
+    background:rgba(0,0,0,0.65);
+    color:white;border-radius:10px;
+    display:none;
+  }
+  @media(max-width:900px){
+    main{grid-template-columns:1fr}
+    aside{order:-1}
+  }
+</style>
 </head>
 <body>
-    <header>Loja de Skins</header>
 
-    <div class="container">
-        
-        <div class="skin">
-            <h3>Skin "Shadow Warrior"</h3>
-            <p>Uma skin sombria com detalhes neon.</p>
-            <div class="btn">Comprar – R$ 4,99</div>
-        </div>
+<header>
+  <button class="backbtn" onclick="location.href='main.html'">⬅ Voltar</button>
+  <h1>Skins</h1>
+  <div></div>
+</header>
 
-        <div class="skin">
-            <h3>Skin "Techno Blade"</h3>
-            <p>Visual futurista com efeitos brilhantes.</p>
-            <div class="btn">Comprar – R$ 7,99</div>
-        </div>
+<main>
 
-        <div class="skin">
-            <h3>Skin "Golden Knight"</h3>
-            <p>Armadura dourada lendária.</p>
-            <div class="btn">Comprar – R$ 9,99</div>
-        </div>
+<section>
+  <h2 style="margin:0 0 10px 0">Suas Skins</h2>
+  <div class="grid" id="skinsGrid"></div>
+</section>
 
-        <a href="home.html" class="back">⬅ Voltar</a>
-    </div>
+<aside>
+  <h3 style="margin:0 0 10px 0">Preview</h3>
+  <div id="preview"><div class="small">Selecione uma skin</div></div>
+
+  <button class="applybtn" id="applyBtn" onclick="applySkin()" disabled>
+    Selecionar Skin
+  </button>
+
+  <div style="margin-top:18px">
+    <h3 style="margin:0 0 6px 0">Skin Atual</h3>
+    <div class="small" id="currentSkinLabel">Nenhuma</div>
+  </div>
+</aside>
+
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  const KEY_OWNED = 'px_owned';
+  const KEY_SELECTED = 'px_selected';
+
+  const STORE = [
+    { id:'skin_shadow', title:'Shadow Warrior', img:'https://i.imgur.com/3QKXk1M.jpeg' },
+    { id:'skin_tech',   title:'Techno Blade',  img:'https://i.imgur.com/qb7Gf3f.jpeg' },
+    { id:'skin_gold',   title:'Golden Knight', img:'https://i.imgur.com/2Yf9pKq.jpeg' },
+    { id:'trail_neon',  title:'Trail Neon',    img:'https://i.imgur.com/5bJ3kXq.png' },
+  ];
+
+  function $(id){ return document.getElementById(id) }
+  function toast(t){
+    const el = $('toast');
+    el.textContent = t;
+    el.style.display='block';
+    clearTimeout(el._h);
+    el._h=setTimeout(()=>el.style.display='none',1800);
+  }
+
+  let owned = JSON.parse(localStorage.getItem(KEY_OWNED) || '[]');
+  let selected = localStorage.getItem(KEY_SELECTED) || null;
+
+  function renderSkins(){
+    const grid = $('skinsGrid');
+    grid.innerHTML = '';
+
+    owned.forEach(id=>{
+      const it = STORE.find(s=>s.id===id);
+      if(!it) return;
+
+      const c = document.createElement('div');
+      c.className = 'card';
+      c.onclick = ()=> select(it);
+
+      c.innerHTML = `
+        <img src="${it.img}">
+        <h3>${it.title}</h3>
+        <span class="ownedTag">Possui</span>
+      `;
+      grid.appendChild(c);
+    });
+  }
+
+  let selectedSkin = null;
+
+  function select(item){
+    selectedSkin = item;
+    $('preview').innerHTML = `<img src="${item.img}" style="transform:scale(1)">`;
+    $('applyBtn').disabled = false;
+    $('applyBtn').textContent = 'Aplicar Skin';
+  }
+
+  function applySkin(){
+    if(!selectedSkin) return;
+    localStorage.setItem(KEY_SELECTED, selectedSkin.id);
+    $('currentSkinLabel').textContent = selectedSkin.title;
+    toast('Skin aplicada!');
+  }
+
+  function loadCurrent(){
+    if(!selected) return;
+    const it = STORE.find(s=>s.id===selected);
+    $('currentSkinLabel').textContent = it ? it.title : 'Nenhuma';
+  }
+
+  renderSkins();
+  loadCurrent();
+</script>
+
 </body>
 </html>
