@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ranking Global - Neo Universe</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header>
+    <h1>🏆 Ranking Global</h1>
+
+    <nav>
+        <a href="index.html">Início</a>
+        <a href="leaderboard.html" class="active">Ranking</a>
+        <a href="achievements.html">Conquistas</a>
+        <a href="profile.html">Perfil</a>
+        <a href="settings.html">Configurações</a>
+    </nav>
+</header>
+
+<main>
+
+<section class="ranking-section">
+    <h2>Melhores Jogadores</h2>
+
+    <table class="ranking-table">
+        <thead>
+            <tr>
+                <th>Posição</th>
+                <th>Jogador</th>
+                <th>Pontos</th>
+                <th>Vitórias</th>
+                <th>Nível</th>
+            </tr>
+        </thead>
+
+        <tbody id="rankingBody">
+            <!-- Ranking Fake carregado pelo JS -->
+        </tbody>
+    </table>
+</section>
+
+</main>
+
+<script>
+// Ranking fake (sem API, salvo no navegador)
+let rankingFake = JSON.parse(localStorage.getItem("rankingFake")) || [
+    { name: "HyperX", points: 1250, wins: 300, level: 25 },
+    { name: "DarkSoul", points: 980, wins: 220, level: 20 },
+    { name: "NeonMaster", points: 860, wins: 190, level: 19 },
+    { name: "PlayerX", points: 700, wins: 160, level: 17 },
+    { name: "NoobSlayer", points: 520, wins: 120, level: 14 }
+];
+
+function renderRanking() {
+    const tbody = document.getElementById("rankingBody");
+    tbody.innerHTML = "";
+
+    rankingFake.forEach((player, index) => {
+        const row = document.createElement("tr");
+
+        row.innerHTML = `
+            <td>#${index + 1}</td>
+            <td>${player.name}</td>
+            <td>${player.points}</td>
+            <td>${player.wins}</td>
+            <td>${player.level}</td>
+        `;
+
+        tbody.appendChild(row);
+    });
+}
+
+renderRanking();
+</script>
+
+<footer>
+    <p>© 2025 Neo Universe — Ranking Global</p>
+</footer>
+
+</body>
+</html>
