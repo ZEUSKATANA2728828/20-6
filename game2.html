@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber Runner ZX - NeoArcadia</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Estilo exclusivo do game2 interno */
+        .game-area {
+            width: 100%;
+            max-width: 480px;
+            height: 600px;
+            background: linear-gradient(#0f0f0f, #1a1a1a);
+            margin: 20px auto;
+            border: 2px solid #00f2ff;
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .runner {
+            width: 40px;
+            height: 40px;
+            background: #00f2ff;
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 6px;
+        }
+
+        .obstacle {
+            width: 30px;
+            height: 30px;
+            background: #ff0055;
+            position: absolute;
+            top: -40px;
+            left: calc(20% + var(--x) * 60%);
+            border-radius: 4px;
+        }
+
+        .hud {
+            text-align: center;
+            color: white;
+            font-size: 20px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1 class="title">Cyber Runner ZX</h1>
+    <p class="subtitle">Corra, desvie e sobreviva!</p>
+
+    <nav class="navbar">
+        <a href="main.html">⬅️ Voltar ao Menu</a>
+    </nav>
+</header>
+
+<div class="hud">
+    <p>Pontuação: <span id="score">0</span></p>
+</div>
+
+<div class="game-area" id="game">
+    <div class="runner" id="runner"></div>
+</div>
+
+<script>
+    const runner = document.getElementById("runner");
+    const game = document.getElementById("game");
+    const scoreEl = document.getElementById("score");
+
+    let score = 0;
+    let runnerX = 50; // posição em porcentagem
+
+    function spawnObstacle() {
+        const obs = document.createElement("div");
+        obs.classList.add("obstacle");
+        obs.style.setProperty("--x", Math.random().toFixed(2));
+
+        game.appendChild(obs);
+
+        let y = -40;
+
+        const fall = setInterval(() => {
+            y += 5;
+            obs.style.top = y + "px";
+
+            const rRect = runner.getBoundingClientRect();
+            const oRect = obs.getBoundingClientRect();
+
+            if (
+                !(rRect.right < oRect.left ||
+                  rRect.left > oRect.right ||
+                  rRect.bottom < oRect.top ||
+                  rRect.top > oRect.bottom)
+            ) {
+                alert("💀 Você bateu! Pontuação final: " + score);
+                window.location.reload();
+            }
+
+            if (y > 620) {
+                obs.remove();
+                clearInterval(fall);
+            }
+        }, 40);
+    }
+
+    setInterval(() => {
+        score++;
+        scoreEl.textContent = score;
+        spawnObstacle();
+    }, 900);
+
+    document.addEventListener("keydown", e => {
+        if (e.key === "ArrowLeft" && runnerX > 10) runnerX -= 5;
+        if (e.key === "ArrowRight" && runnerX < 90) runnerX += 5;
+        runner.style.left = runnerX + "%";
+    });
+</script>
+
+<footer>
+    <p>NeoArcadia © 2025 — Cyber Runner ZX</p>
+</footer>
+
+</body>
+</html>
