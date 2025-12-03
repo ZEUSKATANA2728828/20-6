@@ -1,0 +1,109 @@
+<!-- notifications.html -->
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Notificações — GameVerse</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="app-bg">
+  <header class="topbar">
+    <button class="btn small" onclick="history.back()">Voltar</button>
+    <h2>Notificações</h2>
+    <div style="width:60px"></div>
+  </header>
+
+  <main class="page-wrap">
+    <section class="card">
+      <h3>Ativas</h3>
+      <div id="notifsActive" class="list"></div>
+    </section>
+
+    <section class="card" style="margin-top:18px">
+      <h3>Histórico</h3>
+      <div id="notifsHistory" class="list"></div>
+    </section>
+  </main>
+
+<script>
+/*
+  notifications.html — local notifications manager
+  keys: 'gv_notifications' (array of {id, text, time, read})
+*/
+
+const NOT_KEY = 'gv_notifications';
+
+function loadNotifs(){ try{ return JSON.parse(localStorage.getItem(NOT_KEY) || '[]'); }catch(e){return []} }
+function saveNotifs(a){ localStorage.setItem(NOT_KEY, JSON.stringify(a)); }
+
+function addNotif(text){
+  const arr = loadNotifs();
+  arr.unshift({ id: Date.now(), text, time: new Date().toLocaleString(), read: false });
+  saveNotifs(arr);
+  renderNotifs();
+}
+
+function markRead(id){
+  let arr = loadNotifs();
+  arr = arr.map(n=> n.id===id? {...n, read:true} : n);
+  saveNotifs(arr);
+  renderNotifs();
+}
+
+function clearAll(){
+  if(!confirm('Limpar todas as notificações?')) return;
+  saveNotifs([]);
+  renderNotifs();
+}
+
+function renderNotifs(){
+  const arr = loadNotifs();
+  const activeBox = document.getElementById('notifsActive');
+  const historyBox = document.getElementById('notifsHistory');
+  activeBox.innerHTML = '';
+  historyBox.innerHTML = '';
+
+  arr.forEach(n=>{
+    const el = document.createElement('div');
+    el.className = 'list-item';
+    el.innerHTML = `<div><div>${escapeHtml(n.text)}</div><div class="muted">${n.time}</div></div>
+      <div style="display:flex;gap:8px">
+        ${n.read?'<button class="btn small ghost" onclick="markUnread('+n.id+')">Unread</button>':'<button class="btn small" onclick="markRead('+n.id+')">Marcar lida</button>'}
+        <button class="btn small ghost" onclick="removeNotif(${n.id})">Remover</button>
+      </div>`;
+    if(n.read) historyBox.appendChild(el);
+    else activeBox.appendChild(el);
+  });
+
+  if(arr.filter(a=>!a.read).length===0) activeBox.innerHTML = '<div class="muted">Sem notificações ativas</div>';
+  if(arr.length===0) historyBox.innerHTML = '<div class="muted">Sem histórico</div>';
+}
+
+function markUnread(id){
+  let arr = loadNotifs();
+  arr = arr.map(n=> n.id===id? {...n, read:false} : n);
+  saveNotifs(arr);
+  renderNotifs();
+}
+
+function removeNotif(id){
+  let arr = loadNotifs();
+  arr = arr.filter(n=> n.id !== id);
+  saveNotifs(arr);
+  renderNotifs();
+}
+
+function escapeHtml(s){ return String(s).replace(/[&<>"'`]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;','`':'&#96;'})[c]); }
+
+document.addEventListener('DOMContentLoaded', ()=>{
+  renderNotifs();
+  // seed demo notifications if none
+  if(loadNotifs().length===0){
+    addNotif('Bem-vindo ao GameVerse! Confira a loja.');
+    addNotif('Você ganhou 50 coins ao se registrar (fake).');
+  }
+});
+</script>
+</body>
+</html>
