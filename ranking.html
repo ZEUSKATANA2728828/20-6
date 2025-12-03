@@ -1,0 +1,204 @@
+<!-- ranking.html -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ranking — Project X</title>
+
+<style>
+:root {
+  --bg: #050b16;
+  --card: #0d1a2a;
+  --accent: #00c8ff;
+  --text: #e8f8ff;
+}
+body {
+  margin: 0;
+  background: linear-gradient(180deg, #040d19, #020814);
+  font-family: Inter, Arial;
+  color: var(--text);
+}
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 18px;
+  background: rgba(255,255,255,0.03);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  backdrop-filter: blur(6px);
+}
+header .back {
+  background: #0003;
+  color: #9bb6d6;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.05);
+  cursor: pointer;
+}
+h1 {
+  margin: 0;
+  font-size: 20px;
+  text-shadow: 0 0 10px #008cff55;
+}
+
+main {
+  max-width: 900px;
+  margin: 25px auto;
+  padding: 0 16px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 16px;
+}
+
+.table thead {
+  background: rgba(255,255,255,0.03);
+}
+
+.table th, .table td {
+  padding: 12px 10px;
+  text-align: left;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.row {
+  background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  transition: 0.25s;
+}
+.row:hover {
+  background: rgba(0,200,255,0.12);
+}
+
+.rank {
+  font-weight: bold;
+  color: #00c8ff;
+  text-shadow: 0 0 8px #00c8ff55;
+}
+
+.avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(255,255,255,0.1);
+}
+
+.me {
+  background: rgba(0,255,170,0.08) !important;
+  border-left: 3px solid #00ffae;
+}
+
+.selectBox {
+  margin-top: 18px;
+  padding: 10px;
+  background: var(--card);
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.05);
+}
+
+</style>
+</head>
+<body>
+
+<header>
+  <button class="back" onclick="location.href='main.html'">⬅ Voltar</button>
+  <h1>Ranking Global (Fake)</h1>
+  <div></div>
+</header>
+
+<main>
+
+  <div class="selectBox">
+    <strong>Categoria:</strong><br><br>
+    <select id="category" onchange="loadRanking()" style="padding:8px; border-radius:6px;">
+      <option value="xp">XP Total</option>
+      <option value="kills">Kills (FPS)</option>
+      <option value="goals">Gols (Futebol)</option>
+      <option value="wins">Vitórias</option>
+    </select>
+  </div>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Jogador</th>
+        <th>Pontos</th>
+      </tr>
+    </thead>
+    <tbody id="tbody"></tbody>
+  </table>
+
+</main>
+
+<script>
+const playerName = localStorage.getItem("px_user") || "Você";
+const playerAvatar = localStorage.getItem("px_avatar") 
+  || "https://i.imgur.com/VuTt7Yh.png";
+
+function fakePlayers(){
+  const list = [];
+  const names = [
+    "GhostKiller", "MoonBlade", "PixelFox", "NeoStorm", "DarkNova",
+    "CyberWolf", "BlueShadow", "FireNova", "LordZero", "AlphaGhost",
+    "NightLion", "ToxicStar", "GoldEagle", "ShadowByte", "IceMoon",
+    "ThunderPro", "ChaosLord", "XenoTech", "SkyViper", "NexusOne"
+  ];
+
+  for (let i = 0; i < 35; i++){
+    list.push({
+      name: names[Math.floor(Math.random()*names.length)],
+      avatar: `https://i.pravatar.cc/150?img=${Math.floor(Math.random()*70)}`,
+      xp: Math.floor(Math.random()*9000)+500,
+      kills: Math.floor(Math.random()*950),
+      goals: Math.floor(Math.random()*70),
+      wins: Math.floor(Math.random()*120)
+    });
+  }
+  return list;
+}
+
+let players = fakePlayers();
+
+players.push({
+  name: playerName,
+  avatar: playerAvatar,
+  xp: JSON.parse(localStorage.getItem("px_xp") || "1200"),
+  kills: JSON.parse(localStorage.getItem("px_kills") || "18"),
+  goals: JSON.parse(localStorage.getItem("px_goals") || "4"),
+  wins: JSON.parse(localStorage.getItem("px_wins") || "1"),
+  me: true
+});
+
+function loadRanking(){
+  const cat = document.getElementById("category").value;
+  const sorted = [...players].sort((a,b)=> b[cat] - a[cat]);
+
+  const tbody = document.getElementById("tbody");
+  tbody.innerHTML = "";
+
+  sorted.forEach((p, i)=>{
+    const tr = document.createElement("tr");
+    tr.className = "row";
+    if (p.me) tr.classList.add("me");
+
+    tr.innerHTML = `
+      <td class="rank">${i+1}</td>
+      <td>
+        <img src="${p.avatar}" class="avatar"> 
+        &nbsp; ${p.name}
+      </td>
+      <td>${p[cat]}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+loadRanking();
+</script>
+
+</body>
+</html>
