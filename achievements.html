@@ -1,0 +1,107 @@
+<!-- achievements.html -->
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Conquistas — GameVerse</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="app-bg">
+<header class="topbar">
+  <button class="btn small" onclick="history.back()">Voltar</button>
+  <h2>Conquistas</h2>
+  <div style="width:60px"></div>
+</header>
+
+<main class="page-wrap">
+
+  <section class="card">
+    <h3>Seu progresso</h3>
+    <div class="progress-container">
+      <div id="progressBar" class="progress-bar"></div>
+    </div>
+    <p id="progressPercent" style="margin-top:8px;text-align:center;color:#ccc"></p>
+  </section>
+
+  <section class="card" style="margin-top:20px">
+    <h3>Lista de Conquistas</h3>
+
+    <div id="achievementsList" class="achievements-grid"></div>
+  </section>
+
+</main>
+
+<script>
+/*
+  Sistema de conquistas local
+  Todas armazenadas em localStorage (sem API)
+  Key: gv_achievements
+*/
+
+const ACH_KEY = "gv_achievements";
+
+const ACHIEVEMENTS = [
+  { id:"first_login", title:"Primeiro Login", desc:"Entre pela primeira vez", points:10 },
+  { id:"profile_done", title:"Perfil Completo", desc:"Complete seu perfil", points:20 },
+  { id:"play1", title:"Primeira Partida", desc:"Jogue qualquer minigame", points:15 },
+  { id:"play10", title:"Viciado", desc:"Jogue 10 partidas", points:40 },
+  { id:"win1", title:"Primeira Vitória", desc:"Ganhe uma partida", points:25 },
+  { id:"win5", title:"Campeão", desc:"Ganhe 5 partidas", points:60 },
+  { id:"rank_top10", title:"TOP 10", desc:"Entre no top 10 do ranking", points:80 },
+  { id:"custom_skin", title:"Estiloso", desc:"Equipe uma skin", points:20 },
+  { id:"friend_add", title:"Novo Amigo", desc:"Adicione alguém à lista de amigos", points:10 },
+  { id:"chat_send", title:"Falador", desc:"Envie 1 mensagem no chat (multiplayer)", points:10 },
+  { id:"chat50", title:"Tagarela", desc:"Envie 50 mensagens no chat", points:40 },
+  { id:"open_store", title:"Comprador", desc:"Entre na loja pela primeira vez", points:10 },
+  { id:"buy_item", title:"Primeira Compra", desc:"Compre qualquer item", points:30 },
+  { id:"settings_open", title:"Configurações", desc:"Acesse as configurações", points:5 },
+  { id:"full_explore", title:"Explorador", desc:"Abra todas as páginas principais", points:50 },
+];
+
+function loadAch(){
+  try { return JSON.parse(localStorage.getItem(ACH_KEY) || "[]"); }
+  catch { return []; }
+}
+
+function saveAch(x){
+  localStorage.setItem(ACH_KEY, JSON.stringify(x));
+}
+
+function renderAchievements(){
+  const unlocked = loadAch();
+  const grid = document.getElementById("achievementsList");
+  grid.innerHTML = "";
+
+  let totalPoints = 0;
+  let unlockedPoints = 0;
+  ACHIEVEMENTS.forEach(a => totalPoints += a.points);
+
+  ACHIEVEMENTS.forEach(a=>{
+    const isUnlocked = unlocked.includes(a.id);
+    if(isUnlocked) unlockedPoints += a.points;
+
+    const item = document.createElement("div");
+    item.className = "ach-item " + (isUnlocked ? "ach-unlocked" : "ach-locked");
+    item.innerHTML = `
+      <div class="ach-icon">${isUnlocked ? "🏆" : "🔒"}</div>
+      <div>
+        <div class="ach-title">${a.title}</div>
+        <div class="ach-desc">${a.desc}</div>
+      </div>
+      <div class="ach-points">+${a.points}</div>
+    `;
+    grid.appendChild(item);
+  });
+
+  const percent = Math.round((unlockedPoints / totalPoints) * 100);
+  document.getElementById("progressBar").style.width = percent+"%";
+  document.getElementById("progressPercent").innerText = percent+"% concluído";
+}
+
+document.addEventListener("DOMContentLoaded", renderAchievements);
+</script>
+
+</body>
+</html>
