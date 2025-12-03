@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configurações - Neo Universe</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header>
+    <h1>⚙️ Configurações</h1>
+
+    <nav>
+        <a href="index.html">Início</a>
+        <a href="profile.html">Perfil</a>
+        <a href="leaderboard.html">Ranking</a>
+        <a href="achievements.html">Conquistas</a>
+        <a href="store.html">Loja</a>
+        <a href="settings.html" class="active">Configurações</a>
+    </nav>
+</header>
+
+<main>
+
+<section class="settings-section">
+    <h2>Preferências do Usuário</h2>
+
+    <div class="settings-list">
+
+        <div class="setting-item">
+            <p><strong>Modo Escuro</strong></p>
+            <button onclick="toggleDarkMode()">Ativar/Desativar</button>
+        </div>
+
+        <div class="setting-item">
+            <p><strong>Volume da Música</strong></p>
+            <input type="range" min="0" max="100" value="60" id="musicVolume">
+        </div>
+
+        <div class="setting-item">
+            <p><strong>Volume dos Efeitos</strong></p>
+            <input type="range" min="0" max="100" value="70" id="fxVolume">
+        </div>
+
+        <div class="setting-item">
+            <p><strong>Notificações</strong></p>
+            <button onclick="toggleNotifications()">Ativar/Desativar</button>
+        </div>
+
+        <div class="setting-item">
+            <p><strong>Resetar Dados Locais</strong></p>
+            <button onclick="resetLocalData()" class="danger">Resetar</button>
+        </div>
+
+    </div>
+</section>
+
+<section class="settings-section">
+    <h2>Conta</h2>
+
+    <div class="settings-list">
+
+        <div class="setting-item">
+            <p><strong>Alterar Senha</strong></p>
+            <button onclick="changePassword()">Alterar</button>
+        </div>
+
+        <div class="setting-item">
+            <p><strong>Excluir Conta</strong> (local - fake)</p>
+            <button onclick="deleteAccount()" class="danger">Excluir</button>
+        </div>
+
+    </div>
+</section>
+
+</main>
+
+<script>
+function toggleDarkMode() {
+    document.body.classList.toggle("dark-mode");
+}
+
+function toggleNotifications() {
+    alert("Sistema de notificações será adicionado futuramente.");
+}
+
+function resetLocalData() {
+    if(confirm("Tem certeza que deseja apagar TODOS os dados salvos localmente?")) {
+        localStorage.clear();
+        alert("Dados locais resetados!");
+    }
+}
+
+function changePassword() {
+    alert("Sistema de senha fake será adicionado depois.");
+}
+
+function deleteAccount() {
+    if (confirm("Tem certeza que deseja excluir sua conta local?")) {
+        alert("Conta apagada (fake).");
+    }
+}
+</script>
+
+<footer>
+    <p>© 2025 Neo Universe — Configurações</p>
+</footer>
+
+</body>
+</html>
