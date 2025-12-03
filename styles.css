@@ -1,75 +1,154 @@
-/* styles.css — layout profissional inspirado na imagem (topo azul, seção vermelha, cards, botões) */
-@import url('https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap');
-:root{ --navy:#213a56; --red:#e14b57; --accent:#4F95DA; --glass:rgba(255,255,255,0.05); --card-bg:#ffffff; }
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%;font-family:'Lato',sans-serif;background:linear-gradient(180deg,#061428 0%, #001019 100%);color:#fff}
-
-/* topbar */
-.topbar{background:var(--navy);box-shadow:0 6px 24px rgba(0,0,0,0.45);position:sticky;top:0;z-index:40}
-.topbar-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px 20px}
-.brand{font-weight:700;font-size:20px}
-.top-nav a{color:#dbe7f7;margin-left:18px;text-decoration:none}
-
-/* center layout */
-.center-wrap{max-width:1100px;margin:28px auto;padding:0 18px}
-
-/* hero */
-.hero{display:flex;gap:18px;align-items:center;justify-content:space-between;margin-bottom:18px}
-.hero-left{flex:1}
-.hero-right{width:320px}
-.hero-card{background:var(--glass);padding:14px;border-radius:10px;color:#fff}
-
-/* panels */
-.panel{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:18px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.45)}
-.auth-panel{max-width:420px;margin:50px auto;text-align:center}
-.input{width:86%;padding:12px;border-radius:10px;border:none;margin:8px auto;display:block;background:rgba(255,255,255,0.03);color:#fff}
-
-/* buttons */
-.btn-row{display:flex;gap:12px;justify-content:center;margin-top:12px}
-.btn{background:transparent;border:1px solid #91C9FF;padding:10px 18px;border-radius:10px;cursor:pointer;color:#fff;position:relative;overflow:visible}
-.btn svg{position:absolute;left:0;top:0;fill:none;stroke:#fff;stroke-dasharray:150 480;stroke-dashoffset:150;transition:1s ease-in-out}
-.btn:hover{background:var(--accent);transform:translateY(-3px)}
-.btn:hover svg{stroke-dashoffset:-480}
-.btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06)}
-.btn-red{background:var(--red);border:none;padding:12px 20px;border-radius:26px}
-
-/* small utilities */
-.small-muted{color:rgba(255,255,255,0.75);font-size:13px}
-.title{font-size:22px;margin-bottom:12px}
-.card{background:var(--glass);border-radius:12px;padding:14px;color:#fff;box-shadow:0 8px 24px rgba(0,0,0,0.45);min-width:180px}
-
-/* grid/sections */
-.section-cards{display:flex;gap:18px;flex-wrap:wrap;justify-content:center;margin-top:18px}
-.card.huge{flex:1}
-
-/* shop grid */
-.shop-grid{display:flex;gap:18px;flex-wrap:wrap;justify-content:center}
-.shop-card{width:220px;background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));padding:12px;border-radius:12px;text-align:center}
-.shop-card img{width:100%;height:120px;object-fit:cover;border-radius:8px;margin-bottom:8px}
-
-/* arena / multiplayer */
-.arena{border-radius:10px;border:1px solid rgba(255,255,255,0.03);box-shadow:inset 0 4px 60px rgba(0,0,0,0.6);overflow:hidden}
-.mp-player{position:absolute;width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:700;color:#021}
-.mp-name{position:absolute;top:-18px;font-size:12px;color:#fff}
-
-/* shop/hero images */
-.story-hero{display:flex;gap:18px;background:linear-gradient(90deg,var(--red),#de525d);color:#fff;padding:18px;border-radius:12px;margin:18px 0}
-.story-right img{max-width:100%;border-radius:8px}
-
-/* mini elements */
-.terms-box{background:rgba(255,255,255,0.03);padding:14px;border-radius:10px}
-.loading-bg{display:flex;align-items:center;justify-content:center;min-height:100vh;background:linear-gradient(180deg,#3b0f14,#3b0f14)}
-.loading-card{background:rgba(255,255,255,0.03);padding:22px;border-radius:12px;text-align:center}
-.loader{width:48px;height:48px;border-radius:50%;border:6px solid rgba(255,255,255,0.08);border-top-color:#fff;animation:spin 1s linear infinite;margin:12px auto}
-
-/* fps target */
-.fps-target{position:absolute;width:48px;height:48px;border-radius:50%;box-shadow:0 8px 18px rgba(0,0,0,0.4);display:flex;align-items:center;justify-content:center;font-weight:800;cursor:pointer}
-
-@keyframes spin{to{transform:rotate(360deg)}}
-
-/* responsive */
-@media(max-width:920px){
-  .hero{flex-direction:column}
-  .topbar-inner{flex-direction:column;gap:8px;align-items:flex-start}
-  .shop-grid{flex-direction:column;align-items:center}
+/* styles.css — versão completa (tema moderno / neon)
+   Copiar este arquivo como styles.css e referenciar em todos os HTMLs */
+:root{
+  --bg1: #071021;
+  --bg2: #041426;
+  --card: #0f1b2b;
+  --accent: #00c8ff;
+  --accent-2: #6cf;
+  --muted: #94a7c2;
+  --glass: rgba(255,255,255,0.03);
+  --text: #eaf6ff;
+  --danger: #ff5a5a;
 }
+
+/* global */
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;font-family:Inter,system-ui,Arial,sans-serif;background:linear-gradient(180deg,var(--bg1),var(--bg2));color:var(--text);-webkit-font-smoothing:antialiased}
+a{color:var(--accent);text-decoration:none}
+button{font-family:inherit}
+
+/* topbar / header */
+.topbar, header.topbar, header, .topbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:12px 16px;
+  background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border-bottom:1px solid rgba(255,255,255,0.03);
+  backdrop-filter: blur(6px);
+}
+
+/* main page wrap */
+.page-wrap, main, .page{
+  max-width:1100px;
+  margin:18px auto;
+  padding:12px;
+}
+
+/* cards */
+.card{
+  background:linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01));
+  border-radius:12px;
+  padding:14px;
+  border:1px solid var(--glass);
+  box-shadow: 0 8px 30px rgba(2,6,12,0.5);
+}
+
+/* lists */
+.list{display:flex;flex-direction:column;gap:8px}
+.list-item{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:10px;
+  background:rgba(255,255,255,0.01);
+  border-radius:8px;
+  border:1px solid rgba(255,255,255,0.02);
+}
+
+/* inputs / btns */
+.input, input[type="text"], input[type="email"], input[type="password"], textarea{
+  width:100%;
+  padding:10px 12px;
+  border-radius:8px;
+  border:1px solid rgba(255,255,255,0.04);
+  background: rgba(255,255,255,0.01);
+  color:var(--text);
+  outline:none;
+}
+.btn{
+  background: linear-gradient(90deg,var(--accent),var(--accent-2));
+  color:#002029;
+  padding:8px 12px;
+  border-radius:8px;
+  border:none;
+  cursor:pointer;
+  font-weight:700;
+}
+.btn.small{padding:6px 10px;font-size:14px}
+.btn.ghost{
+  background:transparent;
+  color:var(--text);
+  border:1px solid rgba(255,255,255,0.04);
+}
+.muted{color:var(--muted)}
+.warn{color:var(--danger)}
+
+/* small helper UI */
+.top-actions{display:flex;gap:8px;align-items:center}
+.center{display:flex;align-items:center;justify-content:center}
+.page-title{font-size:20px;font-weight:800}
+.section-title{font-size:18px;margin:6px 0}
+
+/* list of games grid */
+.games-grid, .catalog, .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+
+/* game card */
+.game-card, .card-small, .card{transition:all .18s ease}
+.game-card:hover, .card:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(0,0,0,0.6)}
+
+/* footer */
+footer{max-width:1100px;margin:24px auto;text-align:center;color:var(--muted);font-size:13px}
+
+/* utility */
+.hidden{display:none}
+.center-vertical{display:flex;align-items:center;justify-content:center}
+
+/* responsiveness */
+@media(max-width:900px){
+  .games-grid, .catalog, .grid{grid-template-columns:repeat(auto-fill,minmax(180px,1fr))}
+  .page-wrap{padding:10px}
+}
+
+/* small login/register layout */
+.box {
+  background: rgba(255,255,255,0.03);
+  padding: 16px;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 420px;
+  margin: 18px auto;
+  border:1px solid rgba(255,255,255,0.04);
+}
+
+/* multiplayer / chat */
+.players-list{display:flex;flex-direction:column;gap:8px}
+.player-item{
+  display:flex;align-items:center;justify-content:space-between;padding:8px;border-radius:8px;background:rgba(255,255,255,0.01)
+}
+
+/* achievements */
+.achievements-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.ach-item{display:flex;gap:10px;align-items:center;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.02);background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent)}
+.ach-unlocked{box-shadow:0 8px 20px rgba(0,255,170,0.05);border-left:3px solid #00ffae}
+.ach-icon{font-size:28px}
+.ach-title{font-weight:700}
+.ach-desc{color:var(--muted);font-size:13px}
+.ach-points{margin-left:auto;color:var(--muted)}
+
+/* small forms and elements for store/skins */
+.preview{height:180px;background:linear-gradient(135deg,#021426,#04263b);display:flex;align-items:center;justify-content:center;border-radius:10px;border:1px solid rgba(255,255,255,0.03)}
+.owned{background:#22333b;color:#a6ffd9;padding:6px 8px;border-radius:8px;font-weight:700;border:1px solid rgba(255,255,255,0.02)}
+
+/* helper for small screens */
+@media(max-width:560px){
+  .topbar{flex-direction:column;gap:8px;align-items:stretch}
+  .games-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}
+}
+
+/* =========================
+   Small extras used by some pages
+   ========================= */
+.progress-container{width:100%;height:12px;background:rgba(255,255,255,0.02);border-radius:999px;border:1px solid rgba(255,255,255,0.02)}
+.progress-bar{height:100%;width:0;background:linear-gradient(90deg,#00ffae,#00c8ff);border-radius:999px;transition:width .5s ease}
